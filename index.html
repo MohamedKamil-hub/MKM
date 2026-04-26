@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MKM Systems — VPN and infrastructure for small teams</title>
-<meta name="description" content="Self-hosted VPN, Nginx setup, and Linux infrastructure for small businesses. Fixed prices, no subscriptions. Based in Toledo, Spain.">
+<title>MKM Systems — Infrastructure consultancy</title>
+<meta name="description" content="Independent infrastructure consultancy. Custom on-premise systems for organizations that own their stack. Toledo, Spain.">
 <meta name="theme-color" content="#0f172a">
 
-<meta property="og:title" content="MKM Systems — VPN and infrastructure for small teams">
-<meta property="og:description" content="Self-hosted VPN, Nginx setup, and Linux infrastructure. Fixed prices, no subscriptions.">
+<meta property="og:title" content="MKM Systems — Infrastructure consultancy">
+<meta property="og:description" content="Independent infrastructure consultancy. Custom on-premise systems for organizations that own their stack.">
 <meta property="og:type" content="website">
 
 <script src="https://cdn.tailwindcss.com"></script>
@@ -219,47 +219,19 @@
         </div>
       </div>
 
-      <!-- Secondary: Upwork productized services -->
+      <!-- Engagement process steps -->
       <div class="mb-3">
-        <div class="text-xs font-mono uppercase tracking-widest text-slate-500 font-medium" x-text="t('services.upworkKicker')"></div>
-        <h3 class="mt-1 text-lg font-bold text-navy" x-text="t('services.upworkTitle')"></h3>
-        <p class="mt-1 text-sm text-slate-600" x-text="t('services.upworkSub')"></p>
+        <div class="text-xs font-mono uppercase tracking-widest text-slate-500 font-medium" x-text="t('services.stepsKicker')"></div>
+        <h3 class="mt-1 text-lg font-bold text-navy" x-text="t('services.stepsTitle')"></h3>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
-        <template x-for="s in t('services.fixed')" :key="s.id">
-          <article class="border border-slate-200 rounded-lg p-7 hover:border-navy hover:shadow-md transition">
-            <div class="flex items-center justify-between mb-3">
-              <span class="inline-flex items-center text-xs font-medium bg-slate-100 text-slate-700 px-2.5 py-1 rounded" x-text="s.tag"></span>
-              <span class="text-xs font-mono text-slate-500" x-text="s.timeframe"></span>
-            </div>
-
-            <h3 class="text-xl font-bold text-navy" x-text="s.name"></h3>
-            <p class="mt-2 text-sm text-slate-600 leading-relaxed" x-text="s.desc"></p>
-
-            <ul class="mt-5 space-y-2 text-sm text-slate-700">
-              <template x-for="f in s.features" :key="f">
-                <li class="flex gap-2">
-                  <span class="text-ok shrink-0">✓</span>
-                  <span x-text="f"></span>
-                </li>
-              </template>
-            </ul>
-
-            <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
-              <div>
-                <div class="flex items-baseline gap-1">
-                  <span class="text-2xl font-bold text-navy" x-text="s.price"></span>
-                  <span class="text-sm text-slate-500" x-text="s.priceNote"></span>
-                </div>
-              </div>
-              <a :href="s.href" target="_blank" rel="noopener"
-                 class="inline-flex items-center gap-2 bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-brand transition">
-                <span x-text="s.cta"></span>
-                <span class="text-xs">→</span>
-              </a>
-            </div>
-          </article>
+      <div class="grid md:grid-cols-4 gap-4">
+        <template x-for="(step, i) in t('services.steps')" :key="step.t">
+          <div class="bg-white border border-slate-200 rounded-lg p-5">
+            <div class="text-xs font-mono text-brand font-bold mb-2" x-text="String(i+1).padStart(2,'0')"></div>
+            <h4 class="font-bold text-navy" x-text="step.t"></h4>
+            <p class="mt-2 text-sm text-slate-600 leading-relaxed" x-text="step.d"></p>
+          </div>
         </template>
       </div>
 
@@ -293,7 +265,6 @@
             <div class="mt-5 pt-5 border-t border-slate-100 flex flex-wrap gap-2">
               <a :href="config.linkedin" target="_blank" rel="noopener" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition">LinkedIn →</a>
               <a :href="config.github" target="_blank" rel="noopener" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition">GitHub →</a>
-              <a :href="config.upwork" target="_blank" rel="noopener" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition">Upwork →</a>
             </div>
           </div>
         </div>
@@ -579,146 +550,135 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
 
   const I18N = {
     en: {
-      top: { status: 'Available for new projects', location: 'Toledo, Spain · CET' },
-      nav: { subtitle: 'Infrastructure', services: 'Services', proof: 'Proof', approach: 'Approach', faq: 'FAQ', cta: 'Free 15-min audit' },
+      top: { status: 'Accepting new engagements', location: 'Toledo, Spain · CET' },
+      nav: { subtitle: 'Infrastructure', services: 'Engagements', proof: 'Track record', approach: 'Methodology', faq: 'Inquiries', cta: 'Schedule a call' },
       hero: {
-        badge: 'Available for projects · Booking April–May',
-        title: 'VPN and infrastructure for small teams.',
-        sub: 'Self-hosted setups for Spanish SMBs. Built first on my hardware, deployed on yours when you approve. Pay once. Own the stack.',
-        ctaPrimary: 'Book a free 15-min audit',
-        ctaSecondary: 'See how I work',
+        badge: 'Available for engagements · Q2 booking',
+        title: 'Infrastructure that runs on your hardware. Built by one engineer. Paid after it works.',
+        sub: 'I design and deploy custom on-premise systems for businesses that want to own their stack. The work happens on my hardware first. You only pay once you have seen it working.',
+        ctaPrimary: 'Schedule a call',
+        ctaSecondary: 'How it works',
         guarantee: 'I deliver first. You pay when it works.',
-        guaranteeSub: 'I build the system, demo it live, then hand over credentials. If it does not work, you owe nothing.',
-        trust1: 'Fixed prices, no subscriptions',
-        trust2: 'On-premise, your hardware',
+        guaranteeSub: 'I build the system, demonstrate it live, and only then send the invoice. If it does not meet what we agreed, you owe nothing.',
+        trust1: 'Fixed scope, fixed price',
+        trust2: 'Runs on your hardware',
         trust3: 'Documented handover, no lock-in',
         statsTitle: 'Production track record',
         stat1: 'Concurrent users',
         stat2: 'Measured uptime',
         stat3: 'Min hardware tested',
         stat4: 'Latency observed',
-        statsNote: 'Real numbers from a production deployment during my engagement at:',
-        deployedAt: 'Deployed at',
+        statsNote: 'Real numbers from a production deployment built during my engagement at:',
+        deployedAt: 'Built for',
       },
       services: {
-        kicker: '§01 — How I work',
-        title: 'Two ways to work with me.',
-        sub: 'Direct engagement for serious infrastructure work. Productized fixed-price tasks on Upwork for one-off needs.',
-        b2bKicker: 'Primary · Direct engagement',
-        b2bTitle: 'Custom infrastructure for your business.',
-        b2bDesc: 'I study your current setup from the outside, build a hardened, optimized version on my own VPS, and show you what is possible. If you like it, we deploy it on your hardware. You pay only after the system is running and verified.',
+        kicker: '§01 — How it works',
+        title: 'Same sequence, every time.',
+        sub: 'Every engagement follows the same four phases. You see the work before you pay for it. No retainers, no surprises.',
+        b2bKicker: 'The protocol',
+        b2bTitle: 'You see it working before you commit.',
+        b2bDesc: 'I look at what your business runs from the outside, build a working version on my own hardware, and show it to you live. If it does what we agreed, we deploy on your servers and I send the invoice. If it does not, you walk away with no obligation.',
         b2bFeatures: [
-          'I deliver first, you pay on confirmation',
-          'No access to your systems during build',
-          'Fixed price, no surprises',
-          'Documented handover with runbooks',
-          'You own everything, no lock-in',
+          'I build first, you pay after acceptance',
+          'No access to your systems during the build',
+          'Fixed scope, fixed price, no surprises',
+          'Full source, configs and runbooks delivered',
+          'You own everything, no vendor lock-in',
           'Direct work, no subcontractors',
         ],
-        b2bCta: 'Book a 15-min audit',
-        b2bCtaSecondary: 'Send me a message',
-        upworkKicker: 'Secondary · Productized services',
-        upworkTitle: 'Quick fixes through Upwork.',
-        upworkSub: 'For one-off tasks under €50. Upwork handles invoicing and escrows the payment.',
-        fixed: [
-          { id: 'wireguard', tag: 'Networking', timeframe: '1-day delivery',
-            name: 'Self-hosted WireGuard VPN',
-            desc: 'I install a self-hosted VPN panel on your Linux VPS. Your employees connect by scanning a QR code. Your data never leaves your infrastructure.',
-            features: ['Web panel + QR onboarding','Site-to-site for remote offices','Backup script + handover document','Branded with your name'],
-            price: '€30', priceNote: 'fixed price',
-            href: 'https://www.upwork.com/services/product/development-it-i-will-install-a-self-hosted-wireguard-vpn-panel-on-your-linux-vps-2047988740896181398',
-            cta: 'Buy on Upwork' },
-          { id: 'nginx', tag: 'Web server', timeframe: '2-day delivery',
-            name: 'Nginx fix, optimize, setup',
-            desc: 'I diagnose and fix Nginx issues. 502 errors, broken SSL, slow response times, security misconfiguration. Most problems resolved same-day.',
-            features: ['Diagnostic and root cause','Fix, optimize, harden','Documented handover','2 free revisions'],
-            price: '€25', priceNote: 'fixed price',
-            href: 'https://www.upwork.com/freelancers/~01ddd746a4c14200b7',
-            cta: 'Buy on Upwork' },
+        b2bCta: 'Schedule a call',
+        b2bCtaSecondary: 'Send a written inquiry',
+        stepsKicker: 'The four phases',
+        stepsTitle: 'Linear, verifiable, low-risk.',
+        steps: [
+          { t: 'We talk', d: 'A short technical call to understand what you have, what is not working, and what you actually need. No commitment on either side.' },
+          { t: 'I build it on my own hardware', d: 'I assemble a working version using only what I can see from outside your network. You do not give me any access yet.' },
+          { t: 'I show you the working system', d: 'Live demonstration against what we agreed. You test it yourself. You confirm it works before any access changes hands.' },
+          { t: 'We deploy and I invoice', d: 'On your acceptance, deployment to your hardware, full source and runbooks handed over, invoice via Stripe, SEPA or Revolut Business.' },
         ],
       },
       proof: {
-        kicker: '§02 — Proof',
-        title: 'One person. Real production deployments.',
-        sub: 'You will work directly with me. No account managers, no offshore subcontractors. Everything I deliver, I built and documented.',
+        kicker: '§02 — Track record',
+        title: 'One person. Direct accountability.',
+        sub: 'I do the work myself. No subcontracting, no offshore handoffs. Every line of code, every config, every decision traces back to one person you can call.',
         role: 'Independent infrastructure engineer',
-        basedIn: 'Based in', recently: 'Recently', lang: 'Languages', respond: 'Responds in', respondVal: '< 24 hours',
+        basedIn: 'Based in', recently: 'Recent', lang: 'Languages', respond: 'Responds in', respondVal: '< 24 hours',
         casestudyKicker: 'Case study',
-        casestudyTitle: 'WireGuard VPN panel for SECCION9 Consultoría',
+        casestudyTitle: 'WireGuard VPN management panel — SECCION9 Consultoría',
         metric1: 'Concurrent users', metric2: 'Uptime measured', metric3: 'Monthly VPS cost',
-        casestudyBody: 'Built a production VPN management panel from scratch, deployed across 3+ SMB networks. Hybrid WireGuard + OpenVPN dual-stack hub bypasses corporate firewalls that block UDP. Idempotent installer auto-scales to available hardware. Now part of SECCION9\'s managed cybersecurity offering.',
+        casestudyBody: 'I built a VPN panel from scratch that replaced manual config files with a web interface. Onboarding a new employee went from a 45-minute manual process to scanning a QR code in under five minutes. The system runs on a 1 EUR/month server, handles 40 concurrent users, and is now part of the consultancy\'s managed cybersecurity offering.',
       },
       approach: {
-        kicker: '§03 — Approach',
-        title: 'How I build everything.',
-        sub: 'These are not slogans. They are the rules every project I deliver follows. They exist to protect you from common failure modes in infrastructure work.',
+        kicker: '§03 — Methodology',
+        title: 'Engineering principles I follow on every project.',
+        sub: 'These rules are non-negotiable. They protect you from the failure modes I have seen kill independent infrastructure work, and they make sure your team can take over without me.',
         principles: [
-          { t: 'Lightweight by default', d: 'Runs on a 1 GB RAM VPS. Auto-detects bigger hardware and scales workers, cache, and memory limits accordingly.' },
-          { t: 'Idempotent installers', d: 'Every script can be re-run safely. Migrations, kernel updates, and bad days do not corrupt state.' },
-          { t: 'Zero hardcoding', d: 'All configuration in environment variables. Brand names, paths, ports — one .env file changes everything.' },
-          { t: 'No databases when avoidable', d: 'State in plain JSON or YAML with atomic writes. Your backup is a tar of one directory.' },
-          { t: 'Open and inspectable', d: 'No dependency jails. You can swap me out, integrate other software, or take the project elsewhere.' },
-          { t: 'On-premise, on your terms', d: 'Everything runs on hardware you control. I never store or transmit your data.' },
+          { t: 'Hardware-adaptive design', d: 'Every system I deliver is validated on minimal hardware (1 GB RAM) and auto-scales workers, cache and memory to whatever resources it detects.' },
+          { t: 'Idempotent deployment', d: 'All my deployment scripts are safe to re-run. Migrations, kernel updates and rollbacks never leave the system in a broken state.' },
+          { t: 'Configuration in plain files', d: 'Every operational parameter lives in environment files. Identity, paths, ports, credentials — never embedded in source code.' },
+          { t: 'State on the filesystem', d: 'State persists as plain JSON or YAML with atomic writes. Your backup is a tar of one directory. No database to migrate.' },
+          { t: 'No proprietary dependencies', d: 'Everything I build can be inspected, extended or replaced. The architecture does not require me to keep the lights on.' },
+          { t: 'On-premise execution', d: 'Every system runs on hardware you control. No data ever transits through infrastructure I operate.' },
         ],
       },
       audit: {
-        kicker: '§04 — Start here',
-        title: 'Free 15-minute infrastructure audit.',
-        sub: 'A short, free conversation. We pick one specific problem you are facing — a SaaS bill that is too high, a server that keeps falling over, a VPN that does not scale. You leave with concrete next steps.',
-        bullets: ['One specific problem', '15 minutes by video', 'Concrete recommendations', 'No pitch, no obligation'],
-        cta: 'Book a 15-min slot',
-        note: 'Calendar runs in CET',
-      },
-      faq: {
-        kicker: '§05 — FAQ',
-        title: 'Questions clients actually ask.',
-        items: [
-          { q: 'Why should I trust you with my infrastructure?', a: 'Simple. I deliver first. I build the system on my own hardware, show you it working, and only deploy on yours when you approve. You pay within 48 hours of delivery, before I hand over the runbooks and admin credentials. If it does not work, you owe nothing.' },
-          { q: 'How do you build something for my business without accessing my systems?', a: 'I study what is publicly visible — your domain, public services, the SaaS tools you use, your sector. From there I build a hardened, optimized version of the relevant infrastructure on my own VPS. You see it working before any access is granted. If you decide to proceed, I deploy on your hardware with credentials you rotate after the work.' },
-          { q: 'Are you really just one person? What if you get hit by a bus?', a: 'Yes, one person. That is why everything I deliver includes the full source, plain-text configuration, and a runbook with the exact commands to restore, restart, or roll back. Any competent Linux administrator can take over in a day. There is no proprietary platform you depend on.' },
-          { q: 'What if my IT person does not like you?', a: 'I work with IT staff, not against them. Everything I deliver is documented in plain English with the reasoning behind each decision. The handover doc is written so an internal IT person can take ownership immediately.' },
-          { q: 'Why no subscriptions?', a: 'Most small businesses already pay too many monthly fees. I build infrastructure you pay for once and own. Optional ongoing maintenance is scoped separately if you want it, but the project itself is yours forever.' },
-          { q: 'What happens if it breaks after handover?', a: 'Every delivery includes a runbook with restore, restart, and rollback procedures. State is plain JSON in a directory, so a new VPS plus a tar restore brings everything back. Optional follow-up support is scoped separately.' },
-          { q: 'Can we leave anytime?', a: 'Yes. Nothing I build locks you in. Configuration is in plain files, the code is yours, you can hire any other engineer to take over the project.' },
-          { q: 'Are you a registered company?', a: 'I operate as an independent consultant from Toledo, Spain. Direct engagements are invoiced with full Spanish tax documentation. Smaller productized services on Upwork are invoiced through the platform with payment in escrow. Invoicing details are confirmed during scoping.' },
-        ],
+        kicker: '§04 — First conversation',
+        title: 'Start with a 15-minute call.',
+        sub: 'A focused conversation about one specific problem. An architecture you want a second opinion on, a system that is not behaving, infrastructure costs that have gotten out of hand. The call clarifies whether working together makes sense.',
+        bullets: ['One specific problem', '15 minutes by video', 'Concrete recommendations', 'No commitment'],
+        cta: 'Schedule the call',
+        note: 'Calendar in CET',
       },
       contact: {
         kicker: '§06 — Contact',
-        title: 'Talk to a person, not a funnel.',
-        sub: 'I read every message and reply within 24 hours. The form goes straight to my inbox. The Calendly slot is free and skips the back-and-forth.',
-        emailLabel: 'Email · PGP available',
-        calendlyLabel: 'Calendar · 15-min audit',
-        calendlyVal: 'Book a slot directly',
+        title: 'Direct correspondence.',
+        sub: 'Written inquiries are answered within one business day. The scheduling link bypasses the back-and-forth.',
+        emailLabel: 'Email · PGP supported',
+        calendlyLabel: 'Calendar · technical call',
+        calendlyVal: 'Schedule directly',
         form: {
-          name: 'Your name', namePh: 'How you want to be addressed',
-          email: 'Email', emailPh: 'you@company.com',
-          company: 'Company', companyPh: 'Optional',
-          message: 'What are you working on?', messagePh: 'A SaaS bill, a server problem, an architecture decision — start with the one thing on your mind.',
-          submit: 'Send message',
-          note: 'Form goes to a real inbox. No autoresponder, no funnel.',
+          name: 'Your name', namePh: 'Full name',
+          email: 'Email', emailPh: 'you@organization.com',
+          company: 'Organization', companyPh: 'Company or institution',
+          message: 'Subject of inquiry', messagePh: 'Architecture, security posture, infrastructure consolidation, specific technical question. The more specific the inquiry, the more precise the response.',
+          submit: 'Send inquiry',
+          note: 'Direct inbox. No automated responses.',
         },
       },
       footer: {
-        tagline: 'VPN and infrastructure for small teams. Toledo, Spain.',
-        linksLabel: 'Navigate',
+        tagline: 'Independent infrastructure consultancy. Toledo, Spain.',
+        linksLabel: 'Sections',
         cryptoLabel: 'Cryptographic identity',
         pgpToggle: 'View PGP public key',
-        note: 'No tracking · No cookies · No bullshit',
+        note: 'Privacy-respecting · No analytics · No third-party tracking',
+      },
+      faq: {
+        kicker: '§05 — Inquiries',
+        title: 'Frequently raised technical and commercial questions.',
+        items: [
+          { q: 'What is the rationale for delivering before invoicing?', a: 'Risk allocation. The engagement model places financial risk on the party best positioned to absorb it. Until acceptance, the work resides on isolated hardware under my control. If specification is not met, the system is destroyed and no obligation exists on either side. This protocol eliminates the asymmetric risk that conventional pre-payment imposes on the client.' },
+          { q: 'How is the reference implementation built without production access?', a: 'External technical analysis combined with information voluntarily provided during scoping. Externally observable signals (DNS, public services, exposed protocols, third-party integrations) provide sufficient input to design the target architecture. Production access is required only at deployment, with credentials rotated post-engagement.' },
+          { q: 'What is the engagement-size threshold?', a: 'Engagements typically begin at four-figure scope. Smaller technical questions are best resolved through targeted consultation rather than a full engagement. The scoping call clarifies fit before any commitment.' },
+          { q: 'How are deliverables structured?', a: 'Each engagement produces: source code under client ownership, plain-text configuration in environment files, deployment runbooks for restore and rollback procedures, architecture documentation, and an operational handover session. No proprietary platforms, no licensing dependencies.' },
+          { q: 'How is continuity addressed?', a: 'All deliverables are written for technical handover to any competent systems engineer. Configuration is held in version-controlled plain-text files. State is filesystem-resident JSON or YAML rather than proprietary database formats. The engagement assumes that operational ownership transfers fully on completion.' },
+          { q: 'Is ongoing maintenance available?', a: 'Optional maintenance engagements are scoped separately, on a per-incident or per-quarter basis. There are no recurring subscription commitments. Most deliverables operate without intervention; maintenance is contracted only when actual work arises.' },
+          { q: 'What payment methods are supported?', a: 'Direct bank transfer (SEPA), Stripe (card, SEPA Direct Debit), and Revolut Business. All engagements are invoiced with full Spanish tax documentation. Payment terms are 14 days from invoice issuance.' },
+          { q: 'What is the legal and tax structure?', a: 'I operate as an independent consultant registered in Toledo, Spain. Engagements are invoiced under my personal tax identity with applicable VAT (IVA). Larger engagements that warrant a separate legal entity (Sociedad Limitada) are accommodated on request.' },
+        ],
       },
     },
     es: {
-      top: { status: 'Disponible para nuevos proyectos', location: 'Toledo, España · CET' },
-      nav: { subtitle: 'Infraestructura', services: 'Servicios', proof: 'Pruebas', approach: 'Enfoque', faq: 'FAQ', cta: 'Auditoría gratis · 15 min' },
+      top: { status: 'Aceptando nuevos compromisos', location: 'Toledo, España · CET' },
+      nav: { subtitle: 'Infraestructura', services: 'Compromisos', proof: 'Trayectoria', approach: 'Metodología', faq: 'Consultas', cta: 'Agendar llamada' },
       hero: {
-        badge: 'Disponible para proyectos · Reservas abril–mayo',
-        title: 'VPN e infraestructura para equipos pequeños.',
-        sub: 'Montajes autoalojados para pymes españolas. Construido primero en mi hardware, desplegado en el tuyo cuando lo apruebas. Pago único. Tú eres dueño del stack.',
-        ctaPrimary: 'Reservar auditoría · 15 min',
-        ctaSecondary: 'Ver cómo trabajo',
-        guarantee: 'Entrego primero. Pagas cuando funciona.',
-        guaranteeSub: 'Construyo el sistema, lo demuestro en vivo, y luego entrego credenciales. Si no funciona, no debes nada.',
-        trust1: 'Precios fijos, sin suscripciones',
+        badge: 'Disponible para compromisos · Reservas Q2',
+        title: 'Infraestructura privada, diseñada para operaciones.',
+        sub: 'Sistemas on-premise a medida para organizaciones que quieren ser dueñas de su stack. Construidos primero en infraestructura aislada, desplegados en la tuya tras validación técnica.',
+        ctaPrimary: 'Agendar llamada técnica',
+        ctaSecondary: 'Modelo de compromiso',
+        guarantee: 'Entrega antes de facturación.',
+        guaranteeSub: 'Construyo, demuestro y valido el sistema antes de cualquier factura. El pago se emite tras tu confirmación de que el sistema cumple la especificación.',
+        trust1: 'Compromisos de alcance y precio fijos',
         trust2: 'On-premise, tu hardware',
         trust3: 'Entrega documentada, sin lock-in',
         statsTitle: 'Trayectoria en producción',
@@ -726,114 +686,103 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
         stat2: 'Uptime medido',
         stat3: 'Hardware mínimo probado',
         stat4: 'Latencia observada',
-        statsNote: 'Cifras reales de un despliegue en producción durante mi colaboración en:',
-        deployedAt: 'Desplegado en',
+        statsNote: 'Despliegue en producción construido durante mi colaboración en:',
+        deployedAt: 'Compromiso con',
       },
       services: {
-        kicker: '§01 — Cómo trabajo',
-        title: 'Dos formas de trabajar conmigo.',
-        sub: 'Compromiso directo para trabajos de infraestructura serios. Servicios cerrados a precio fijo en Upwork para necesidades puntuales.',
-        b2bKicker: 'Principal · Compromiso directo',
-        b2bTitle: 'Infraestructura a medida para tu empresa.',
-        b2bDesc: 'Estudio tu setup actual desde fuera, construyo una versión endurecida y optimizada en mi propio VPS, y te muestro lo que es posible. Si te gusta, lo desplegamos en tu hardware. Pagas solo después de que el sistema esté funcionando y verificado.',
+        kicker: '§01 — Modelo de compromiso',
+        title: 'Cómo funcionan los compromisos.',
+        sub: 'Cada compromiso sigue la misma secuencia. Reduce el riesgo para ambas partes. Sin retainers, sin suscripciones, sin sorpresas.',
+        b2bKicker: 'Protocolo de compromiso',
+        b2bTitle: 'Validación antes del despliegue.',
+        b2bDesc: 'Realizo análisis técnico externo de tu infraestructura existente, construyo una implementación de referencia endurecida en hardware aislado, y presento el sistema funcionando para validación técnica. El despliegue en tu entorno de producción ocurre solo tras cumplirse y aceptarse la especificación.',
         b2bFeatures: [
-          'Entrego primero, pagas al confirmar',
-          'Sin acceso a tus sistemas durante la construcción',
-          'Precio fijo, sin sorpresas',
-          'Entrega documentada con runbooks',
-          'Tú eres dueño de todo, sin lock-in',
-          'Trabajo directo, sin subcontratas',
+          'Análisis externo durante la fase de construcción',
+          'Implementación de referencia en hardware aislado',
+          'Validación técnica antes del despliegue',
+          'Facturación tras aceptación del sistema',
+          'Código fuente, configuración y runbooks completos',
+          'Compromiso directo, sin trabajo subcontratado',
         ],
-        b2bCta: 'Reservar auditoría 15 min',
-        b2bCtaSecondary: 'Enviarme un mensaje',
-        upworkKicker: 'Secundario · Servicios cerrados',
-        upworkTitle: 'Arreglos rápidos vía Upwork.',
-        upworkSub: 'Para tareas puntuales por debajo de 50 €. Upwork gestiona la facturación y retiene el pago en escrow.',
-        fixed: [
-          { id: 'wireguard', tag: 'Red', timeframe: 'Entrega en 1 día',
-            name: 'VPN WireGuard autoalojada',
-            desc: 'Instalo un panel VPN autoalojado en tu VPS Linux. Los empleados se conectan escaneando un QR. Tus datos no salen de tu infraestructura.',
-            features: ['Panel web + alta por QR','Site-to-site entre oficinas','Script de backup + entrega documentada','Marca personalizada con tu nombre'],
-            price: '30 €', priceNote: 'precio fijo',
-            href: 'https://www.upwork.com/services/product/development-it-i-will-install-a-self-hosted-wireguard-vpn-panel-on-your-linux-vps-2047988740896181398',
-            cta: 'Comprar en Upwork' },
-          { id: 'nginx', tag: 'Servidor web', timeframe: 'Entrega en 2 días',
-            name: 'Nginx: arreglar, optimizar, montar',
-            desc: 'Diagnostico y arreglo problemas de Nginx. Errores 502, SSL roto, lentitud, configuraciones inseguras. La mayoría se resuelven en el día.',
-            features: ['Diagnóstico y causa raíz','Arreglo, optimización, hardening','Entrega documentada','2 revisiones incluidas'],
-            price: '25 €', priceNote: 'precio fijo',
-            href: 'https://www.upwork.com/freelancers/~01ddd746a4c14200b7',
-            cta: 'Comprar en Upwork' },
+        b2bCta: 'Agendar llamada técnica',
+        b2bCtaSecondary: 'Enviar consulta escrita',
+        stepsKicker: 'Secuencia',
+        stepsTitle: 'Cuatro fases. Lineales. Verificables.',
+        steps: [
+          { t: 'Llamada de alcance', d: 'Conversación técnica para entender la arquitectura actual, restricciones y objetivos. Sin compromiso.' },
+          { t: 'Construcción de referencia', d: 'Construyo el sistema propuesto en hardware aislado usando solo información observable externamente. Sin acceso a producción.' },
+          { t: 'Demostración técnica', d: 'Demostración en vivo del sistema funcionando contra la especificación acordada. Verificas el comportamiento antes de cualquier compromiso.' },
+          { t: 'Despliegue y facturación', d: 'Tras aceptación, despliegue en tu hardware, entrega de código y runbooks, factura emitida vía Stripe o transferencia bancaria directa.' },
         ],
       },
       proof: {
-        kicker: '§02 — Pruebas',
+        kicker: '§02 — Trayectoria',
         title: 'Una persona. Despliegues reales en producción.',
         sub: 'Trabajas directamente conmigo. Sin gestores de cuenta, sin subcontratas. Todo lo que entrego lo he construido y documentado yo.',
         role: 'Ingeniero de infraestructura independiente',
-        basedIn: 'Ubicación', recently: 'Recientemente', lang: 'Idiomas', respond: 'Responde en', respondVal: '< 24 horas',
+        basedIn: 'Ubicación', recently: 'Reciente', lang: 'Idiomas', respond: 'Responde en', respondVal: '< 24 horas',
         casestudyKicker: 'Caso de estudio',
         casestudyTitle: 'Panel VPN WireGuard para SECCION9 Consultoría',
         metric1: 'Usuarios concurrentes', metric2: 'Uptime medido', metric3: 'Coste VPS mensual',
-        casestudyBody: 'Construí desde cero un panel de gestión VPN en producción, desplegado en 3+ redes SMB. Hub híbrido WireGuard + OpenVPN sortea firewalls corporativos que bloquean UDP. Instalador idempotente que escala automáticamente al hardware disponible. Ahora forma parte de la oferta de ciberseguridad gestionada de SECCION9.',
+        casestudyBody: 'Construí desde cero un panel de gestión VPN en producción, desplegado en 3+ redes corporativas. Hub híbrido WireGuard + OpenVPN sortea firewalls que bloquean UDP. Instalador idempotente que escala automáticamente al hardware disponible. Ahora forma parte de la oferta de ciberseguridad gestionada de SECCION9.',
       },
       approach: {
-        kicker: '§03 — Enfoque',
-        title: 'Cómo construyo todo.',
-        sub: 'Esto no son eslóganes. Son las reglas que sigue cada proyecto que entrego. Existen para protegerte de los modos de fallo habituales en infraestructura.',
+        kicker: '§03 — Metodología',
+        title: 'Principios de ingeniería aplicados a cada entrega.',
+        sub: 'Estas restricciones son innegociables. Existen para proteger al cliente de los modos de fallo habituales en trabajo de infraestructura independiente y para asegurar la continuidad operativa más allá del compromiso.',
         principles: [
-          { t: 'Ligero por defecto', d: 'Funciona en un VPS de 1 GB de RAM. Detecta hardware mayor y ajusta workers, caché y memoria automáticamente.' },
-          { t: 'Instaladores idempotentes', d: 'Cada script puede reejecutarse sin riesgo. Migraciones, actualizaciones de kernel y días malos no corrompen el estado.' },
-          { t: 'Cero hardcoding', d: 'Toda la configuración en variables de entorno. Marcas, rutas, puertos — un único .env cambia todo.' },
-          { t: 'Sin bases de datos si no hace falta', d: 'Estado en JSON o YAML plano con escrituras atómicas. Tu backup es un tar de un directorio.' },
-          { t: 'Abierto e inspeccionable', d: 'Sin cárceles de dependencias. Puedes sustituirme, integrar otro software o llevarte el proyecto.' },
-          { t: 'On-premise, en tus términos', d: 'Todo corre en hardware que tú controlas. Yo nunca almaceno ni transmito tus datos.' },
+          { t: 'Diseño adaptable al hardware', d: 'Los sistemas se validan en hardware mínimo (1 GB RAM) y escalan workers, caché y umbrales de memoria automáticamente según los recursos detectados.' },
+          { t: 'Despliegue idempotente', d: 'Todos los scripts de despliegue son seguros para reejecutar. Migraciones, actualizaciones de kernel y rollbacks no producen estado inconsistente.' },
+          { t: 'Externalización de configuración', d: 'Todos los parámetros operativos residen en archivos de entorno. Identidad, rutas, puertos y credenciales nunca se incrustan en el código fuente.' },
+          { t: 'Estado en filesystem', d: 'El estado persiste como JSON o YAML plano con semántica de escritura atómica. El backup es un archivo tar de un único directorio.' },
+          { t: 'Sin dependencias propietarias', d: 'Cada entrega puede ser inspeccionada, ampliada o sustituida. La arquitectura no requiere compromiso continuado con esta consultoría.' },
+          { t: 'Ejecución on-premise', d: 'Todos los sistemas corren en hardware controlado por el cliente. Ningún dato transita por infraestructura externa operada por esta consultoría.' },
         ],
       },
       audit: {
-        kicker: '§04 — Empieza aquí',
-        title: 'Auditoría de infraestructura · 15 min · gratis.',
-        sub: 'Una conversación corta y gratuita. Elegimos un problema concreto — una factura SaaS demasiado alta, un servidor que se cae, una VPN que no escala. Te llevas pasos siguientes concretos.',
-        bullets: ['Un problema concreto', '15 minutos por videollamada', 'Recomendaciones aplicables', 'Sin venta, sin compromiso'],
-        cta: 'Reservar 15 min',
-        note: 'Agenda en horario CET',
+        kicker: '§04 — Primera conversación',
+        title: 'Empieza con una llamada técnica de 15 minutos.',
+        sub: 'Conversación enfocada en un problema operativo concreto. Revisión de arquitectura, consolidación de infraestructura, postura de seguridad o cuestión técnica específica. La llamada clarifica si un compromiso es apropiado.',
+        bullets: ['Problema operativo concreto', '15 minutos por videollamada', 'Recomendaciones técnicas concretas', 'Sin compromiso'],
+        cta: 'Agendar la llamada',
+        note: 'Calendario en CET',
       },
       faq: {
-        kicker: '§05 — FAQ',
-        title: 'Preguntas que hacen los clientes de verdad.',
+        kicker: '§05 — Consultas',
+        title: 'Cuestiones técnicas y comerciales habituales.',
         items: [
-          { q: '¿Por qué debería confiarte mi infraestructura?', a: 'Sencillo. Entrego primero. Construyo el sistema en mi propio hardware, te lo enseño funcionando, y solo despliego en el tuyo cuando lo apruebas. Pagas dentro de las 48 horas siguientes a la entrega, antes de que te entregue los runbooks y las credenciales de admin. Si no funciona, no debes nada.' },
-          { q: '¿Cómo construyes algo para mi empresa sin acceder a mis sistemas?', a: 'Estudio lo que es públicamente visible — tu dominio, servicios públicos, las herramientas SaaS que usas, tu sector. A partir de ahí construyo una versión endurecida y optimizada de la infraestructura relevante en mi propio VPS. Lo ves funcionando antes de conceder ningún acceso. Si decides seguir, despliego en tu hardware con credenciales que rotas tras el trabajo.' },
-          { q: '¿De verdad eres una sola persona? ¿Y si te atropella un autobús?', a: 'Sí, una persona. Por eso cada entrega incluye el código fuente completo, configuración en archivos planos y un runbook con los comandos exactos para restaurar, reiniciar o revertir. Cualquier administrador Linux competente puede tomar el relevo en un día. No dependes de ninguna plataforma propietaria.' },
-          { q: '¿Y si a mi informático no le caigo bien?', a: 'Trabajo con el equipo de IT, no contra él. Todo lo que entrego está documentado en lenguaje claro con el razonamiento detrás de cada decisión. El doc de entrega está escrito para que un IT interno pueda asumir la propiedad inmediatamente.' },
-          { q: '¿Por qué sin suscripciones?', a: 'La mayoría de pymes ya pagan demasiadas cuotas mensuales. Construyo infraestructura que se paga una vez y es tuya. El mantenimiento continuado opcional se presupuesta aparte si lo quieres, pero el proyecto en sí es tuyo para siempre.' },
-          { q: '¿Qué pasa si se rompe tras la entrega?', a: 'Cada entrega incluye un runbook con procedimientos de restauración, reinicio y rollback. El estado es JSON plano en un directorio, así que un VPS nuevo más un restore de tar lo deja todo en pie. El soporte continuado opcional se presupuesta aparte.' },
-          { q: '¿Podemos irnos cuando queramos?', a: 'Sí. Nada de lo que construyo te encierra. La configuración está en archivos planos, el código es tuyo, puedes contratar a cualquier otro ingeniero para tomar el relevo.' },
-          { q: '¿Estás dado de alta?', a: 'Trabajo como consultor independiente desde Toledo, España. Los compromisos directos se facturan con la documentación fiscal española completa. Los servicios cerrados menores en Upwork se facturan a través de la plataforma con pago en escrow. Los detalles de facturación se confirman durante el alcance del proyecto.' },
+          { q: '¿Cuál es la justificación de entregar antes de facturar?', a: 'Asignación de riesgo. El modelo de compromiso coloca el riesgo financiero en la parte mejor posicionada para absorberlo. Hasta la aceptación, el trabajo reside en hardware aislado bajo mi control. Si la especificación no se cumple, el sistema se destruye y no existe obligación para ninguna parte. Este protocolo elimina el riesgo asimétrico que el pago anticipado convencional impone al cliente.' },
+          { q: '¿Cómo se construye la implementación de referencia sin acceso a producción?', a: 'Análisis técnico externo combinado con información proporcionada voluntariamente durante el alcance. Las señales observables externamente (DNS, servicios públicos, protocolos expuestos, integraciones de terceros) proporcionan suficiente entrada para diseñar la arquitectura objetivo. El acceso a producción solo se requiere en el despliegue, con credenciales que se rotan tras el compromiso.' },
+          { q: '¿Cuál es el umbral de tamaño del compromiso?', a: 'Los compromisos típicamente comienzan en alcance de cuatro cifras. Cuestiones técnicas menores se resuelven mejor mediante consulta puntual antes que un compromiso completo. La llamada de alcance clarifica el encaje antes de cualquier compromiso.' },
+          { q: '¿Cómo se estructuran los entregables?', a: 'Cada compromiso produce: código fuente bajo titularidad del cliente, configuración en texto plano en archivos de entorno, runbooks de despliegue con procedimientos de restauración y rollback, documentación de arquitectura, y sesión operativa de entrega. Sin plataformas propietarias, sin dependencias de licencia.' },
+          { q: '¿Cómo se aborda la continuidad?', a: 'Todos los entregables están escritos para entrega técnica a cualquier ingeniero de sistemas competente. La configuración se mantiene en archivos de texto plano bajo control de versiones. El estado reside en filesystem como JSON o YAML en lugar de formatos de base de datos propietarios. El compromiso asume que la titularidad operativa se transfiere completamente al finalizar.' },
+          { q: '¿Hay mantenimiento disponible?', a: 'Compromisos de mantenimiento opcionales se presupuestan aparte, por incidencia o por trimestre. No hay compromisos de suscripción recurrente. La mayoría de los entregables operan sin intervención; el mantenimiento se contrata solo cuando surge trabajo real.' },
+          { q: '¿Qué métodos de pago se admiten?', a: 'Transferencia bancaria directa (SEPA), Stripe (tarjeta, SEPA Direct Debit) y Revolut Business. Todos los compromisos se facturan con documentación fiscal española completa. Los términos de pago son 14 días desde la emisión de la factura.' },
+          { q: '¿Cuál es la estructura legal y fiscal?', a: 'Opero como consultor independiente registrado en Toledo, España. Los compromisos se facturan bajo mi identidad fiscal personal con IVA aplicable. Compromisos mayores que justifiquen una entidad legal separada (Sociedad Limitada) se acomodan bajo solicitud.' },
         ],
       },
       contact: {
         kicker: '§06 — Contacto',
-        title: 'Habla con una persona, no con un embudo.',
-        sub: 'Leo cada mensaje y respondo en menos de 24 horas. El formulario va directo a mi inbox. La cita en Calendly es gratis y se salta el ida y vuelta.',
-        emailLabel: 'Email · PGP disponible',
-        calendlyLabel: 'Calendario · auditoría 15 min',
-        calendlyVal: 'Reservar plaza directamente',
+        title: 'Correspondencia directa.',
+        sub: 'Las consultas escritas se responden en un día laborable. El enlace de agenda evita el ida y vuelta.',
+        emailLabel: 'Email · PGP soportado',
+        calendlyLabel: 'Calendario · llamada técnica',
+        calendlyVal: 'Agendar directamente',
         form: {
-          name: 'Tu nombre', namePh: 'Como prefieras que te llame',
-          email: 'Email', emailPh: 'tu@empresa.com',
-          company: 'Empresa', companyPh: 'Opcional',
-          message: '¿En qué estás trabajando?', messagePh: 'Una factura SaaS, un servidor problemático, una decisión de arquitectura — empieza por lo que tengas en mente.',
-          submit: 'Enviar mensaje',
-          note: 'El formulario va a un inbox real. Sin autorespuesta, sin embudo.',
+          name: 'Tu nombre', namePh: 'Nombre completo',
+          email: 'Email', emailPh: 'tu@organizacion.com',
+          company: 'Organización', companyPh: 'Empresa o institución',
+          message: 'Asunto de la consulta', messagePh: 'Arquitectura, postura de seguridad, consolidación de infraestructura, cuestión técnica concreta. Cuanto más específica la consulta, más precisa la respuesta.',
+          submit: 'Enviar consulta',
+          note: 'Inbox directo. Sin respuestas automáticas.',
         },
       },
       footer: {
-        tagline: 'VPN e infraestructura para equipos pequeños. Toledo, España.',
-        linksLabel: 'Navegar',
+        tagline: 'Consultoría de infraestructura independiente. Toledo, España.',
+        linksLabel: 'Secciones',
         cryptoLabel: 'Identidad criptográfica',
         pgpToggle: 'Ver clave PGP pública',
-        note: 'Sin tracking · Sin cookies · Sin tonterías',
+        note: 'Respeta la privacidad · Sin analítica · Sin tracking de terceros',
       },
     },
   };
