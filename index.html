@@ -1,1 +1,795 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MKM Systems — VPN and infrastructure for small teams</title>
+<meta name="description" content="Self-hosted VPN, Nginx setup, and Linux infrastructure for small businesses. Fixed prices, no subscriptions. Based in Toledo, Spain.">
+<meta name="theme-color" content="#0f172a">
 
+<meta property="og:title" content="MKM Systems — VPN and infrastructure for small teams">
+<meta property="og:description" content="Self-hosted VPN, Nginx setup, and Linux infrastructure. Fixed prices, no subscriptions.">
+<meta property="og:type" content="website">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy:  { DEFAULT: '#0f172a', soft: '#1e293b', light: '#334155' },
+          slate: { 50:'#f8fafc', 100:'#f1f5f9', 200:'#e2e8f0', 300:'#cbd5e1', 400:'#94a3b8', 500:'#64748b', 600:'#475569', 700:'#334155', 800:'#1e293b', 900:'#0f172a' },
+          brand: { DEFAULT: '#1e40af', light: '#3b82f6', soft: '#dbeafe' },
+          ok: '#059669',
+        },
+        fontFamily: {
+          sans: ['Inter', 'ui-sans-serif', 'system-ui'],
+          mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  body { font-feature-settings: 'cv11', 'ss01'; }
+  ::selection { background: #1e40af; color: white; }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid #1e40af; outline-offset: 2px; }
+  details > summary { list-style: none; }
+  details > summary::-webkit-details-marker { display: none; }
+</style>
+</head>
+
+<body x-data="site()" x-init="init()" :data-lang="lang" class="font-sans antialiased text-slate-900 bg-white">
+
+<!-- TOP BAR -->
+<div class="bg-navy text-slate-300 text-xs">
+  <div class="max-w-7xl mx-auto px-6 h-9 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <span class="flex items-center gap-1.5">
+        <span class="w-1.5 h-1.5 rounded-full bg-ok"></span>
+        <span x-text="t('top.status')"></span>
+      </span>
+      <span class="hidden sm:inline text-slate-500">·</span>
+      <span class="hidden sm:inline" x-text="t('top.location')"></span>
+    </div>
+    <div class="flex items-center gap-4">
+      <a :href="'mailto:' + config.email" class="hidden sm:inline hover:text-white transition" x-text="config.email"></a>
+      <button @click="toggleLang()" class="hover:text-white transition font-medium" x-text="lang === 'en' ? 'ES' : 'EN'"></button>
+    </div>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur border-b border-slate-200">
+  <nav class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="#top" class="flex items-center gap-2.5">
+      <div class="w-8 h-8 bg-navy rounded flex items-center justify-center">
+        <span class="text-white font-bold text-sm">M</span>
+      </div>
+      <div class="leading-tight">
+        <div class="font-bold text-navy">MKM Systems</div>
+        <div class="text-[10px] text-slate-500 font-mono uppercase tracking-wider" x-text="t('nav.subtitle')"></div>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-7 text-sm font-medium text-slate-600">
+      <a href="#services" class="hover:text-navy transition" x-text="t('nav.services')"></a>
+      <a href="#proof"    class="hover:text-navy transition" x-text="t('nav.proof')"></a>
+      <a href="#approach" class="hover:text-navy transition" x-text="t('nav.approach')"></a>
+      <a href="#faq"      class="hover:text-navy transition" x-text="t('nav.faq')"></a>
+    </div>
+
+    <a :href="config.calendlyUrl" target="_blank" rel="noopener"
+       class="inline-flex items-center gap-2 bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-brand transition">
+      <span x-text="t('nav.cta')"></span>
+      <span class="text-xs">→</span>
+    </a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="bg-slate-50 border-b border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 py-16 md:py-24 grid md:grid-cols-12 gap-10 items-center">
+
+      <div class="md:col-span-7">
+        <div class="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-3 py-1 text-xs font-medium text-slate-600">
+          <span class="w-1.5 h-1.5 rounded-full bg-ok"></span>
+          <span x-text="t('hero.badge')"></span>
+        </div>
+
+        <h1 class="mt-6 text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-navy leading-[1.1]" x-text="t('hero.title')"></h1>
+
+        <p class="mt-5 text-lg text-slate-600 leading-relaxed max-w-xl" x-text="t('hero.sub')"></p>
+
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a :href="config.calendlyUrl" target="_blank" rel="noopener"
+             class="inline-flex items-center gap-2 bg-navy text-white px-6 py-3 rounded font-medium hover:bg-brand transition">
+            <span x-text="t('hero.ctaPrimary')"></span>
+            <span class="text-xs">→</span>
+          </a>
+          <a href="#services"
+             class="inline-flex items-center gap-2 bg-white border border-slate-300 text-navy px-6 py-3 rounded font-medium hover:border-navy transition">
+            <span x-text="t('hero.ctaSecondary')"></span>
+          </a>
+        </div>
+
+        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-500">
+          <span class="flex items-center gap-1.5"><span class="text-ok">✓</span> <span x-text="t('hero.trust1')"></span></span>
+          <span class="flex items-center gap-1.5"><span class="text-ok">✓</span> <span x-text="t('hero.trust2')"></span></span>
+          <span class="flex items-center gap-1.5"><span class="text-ok">✓</span> <span x-text="t('hero.trust3')"></span></span>
+        </div>
+      </div>
+
+      <div class="md:col-span-5">
+        <div class="bg-white border border-slate-200 rounded-lg shadow-sm p-6">
+          <div class="text-xs font-mono uppercase tracking-wider text-slate-500" x-text="t('hero.statsTitle')"></div>
+          <div class="mt-4 space-y-4">
+            <div class="flex items-baseline justify-between border-b border-slate-100 pb-3">
+              <div>
+                <div class="text-2xl font-bold text-navy">40+</div>
+                <div class="text-xs text-slate-500" x-text="t('hero.stat1')"></div>
+              </div>
+              <div class="text-3xl text-slate-200">·</div>
+              <div class="text-right">
+                <div class="text-2xl font-bold text-navy">99.5%</div>
+                <div class="text-xs text-slate-500" x-text="t('hero.stat2')"></div>
+              </div>
+            </div>
+            <div class="flex items-baseline justify-between border-b border-slate-100 pb-3">
+              <div>
+                <div class="text-2xl font-bold text-navy">512MB</div>
+                <div class="text-xs text-slate-500" x-text="t('hero.stat3')"></div>
+              </div>
+              <div class="text-3xl text-slate-200">·</div>
+              <div class="text-right">
+                <div class="text-2xl font-bold text-navy">&lt;50ms</div>
+                <div class="text-xs text-slate-500" x-text="t('hero.stat4')"></div>
+              </div>
+            </div>
+            <div class="pt-2">
+              <div class="text-xs text-slate-500" x-text="t('hero.statsNote')"></div>
+              <div class="mt-2 inline-flex items-center gap-2 text-xs font-medium text-navy">
+                <span class="bg-slate-100 px-2 py-0.5 rounded" x-text="t('hero.deployedAt')"></span>
+                <span class="font-mono">SECCION9</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" class="bg-white">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+
+      <div class="max-w-2xl mb-12">
+        <div class="text-xs font-mono uppercase tracking-widest text-brand font-medium" x-text="t('services.kicker')"></div>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-navy" x-text="t('services.title')"></h2>
+        <p class="mt-3 text-slate-600" x-text="t('services.sub')"></p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        <template x-for="s in t('services.fixed')" :key="s.id">
+          <article class="border border-slate-200 rounded-lg p-7 hover:border-navy hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="inline-flex items-center text-xs font-medium bg-slate-100 text-slate-700 px-2.5 py-1 rounded" x-text="s.tag"></span>
+              <span class="text-xs font-mono text-slate-500" x-text="s.timeframe"></span>
+            </div>
+
+            <h3 class="text-xl font-bold text-navy" x-text="s.name"></h3>
+            <p class="mt-2 text-sm text-slate-600 leading-relaxed" x-text="s.desc"></p>
+
+            <ul class="mt-5 space-y-2 text-sm text-slate-700">
+              <template x-for="f in s.features" :key="f">
+                <li class="flex gap-2">
+                  <span class="text-ok shrink-0">✓</span>
+                  <span x-text="f"></span>
+                </li>
+              </template>
+            </ul>
+
+            <div class="mt-6 pt-5 border-t border-slate-100 flex items-center justify-between">
+              <div>
+                <div class="flex items-baseline gap-1">
+                  <span class="text-2xl font-bold text-navy" x-text="s.price"></span>
+                  <span class="text-sm text-slate-500" x-text="s.priceNote"></span>
+                </div>
+              </div>
+              <a :href="s.href" target="_blank" rel="noopener"
+                 class="inline-flex items-center gap-2 bg-navy text-white px-4 py-2 rounded text-sm font-medium hover:bg-brand transition">
+                <span x-text="s.cta"></span>
+                <span class="text-xs">→</span>
+              </a>
+            </div>
+          </article>
+        </template>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-lg p-7 md:p-8">
+        <div class="flex items-start justify-between flex-wrap gap-4 mb-5">
+          <div>
+            <div class="text-xs font-mono uppercase tracking-widest text-slate-500" x-text="t('services.largerKicker')"></div>
+            <h3 class="mt-1 text-xl font-bold text-navy" x-text="t('services.largerTitle')"></h3>
+          </div>
+          <a :href="config.calendlyUrl" target="_blank" rel="noopener"
+             class="text-sm font-medium text-brand hover:underline">
+            <span x-text="t('services.largerCta')"></span> →
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-5">
+          <template x-for="l in t('services.larger')" :key="l.id">
+            <div class="bg-white border border-slate-200 rounded p-5">
+              <h4 class="font-bold text-navy" x-text="l.name"></h4>
+              <p class="mt-2 text-sm text-slate-600" x-text="l.desc"></p>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROOF -->
+  <section id="proof" class="bg-slate-50 border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+
+      <div class="grid md:grid-cols-12 gap-10">
+        <div class="md:col-span-5">
+          <div class="text-xs font-mono uppercase tracking-widest text-brand font-medium" x-text="t('proof.kicker')"></div>
+          <h2 class="mt-2 text-3xl md:text-4xl font-bold text-navy" x-text="t('proof.title')"></h2>
+          <p class="mt-3 text-slate-600" x-text="t('proof.sub')"></p>
+
+          <div class="mt-8 bg-white border border-slate-200 rounded-lg p-6">
+            <div class="flex items-center gap-4 mb-4">
+              <div class="w-14 h-14 bg-navy text-white rounded-full flex items-center justify-center font-bold text-lg">KM</div>
+              <div>
+                <div class="font-bold text-navy" x-text="config.brandName"></div>
+                <div class="text-sm text-slate-500" x-text="t('proof.role')"></div>
+              </div>
+            </div>
+            <div class="space-y-2 text-sm text-slate-600">
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0 w-20" x-text="t('proof.basedIn')"></span><span class="text-slate-800 font-medium">Toledo, Spain</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0 w-20" x-text="t('proof.recently')"></span><span class="text-slate-800 font-medium">SECCION9 Consultoría</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0 w-20" x-text="t('proof.lang')"></span><span class="text-slate-800 font-medium">ES, EN</span></div>
+              <div class="flex gap-2"><span class="text-slate-400 shrink-0 w-20" x-text="t('proof.respond')"></span><span class="text-slate-800 font-medium" x-text="t('proof.respondVal')"></span></div>
+            </div>
+            <div class="mt-5 pt-5 border-t border-slate-100 flex flex-wrap gap-2">
+              <a :href="config.linkedin" target="_blank" rel="noopener" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition">LinkedIn →</a>
+              <a :href="config.github" target="_blank" rel="noopener" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition">GitHub →</a>
+              <a :href="config.upwork" target="_blank" rel="noopener" class="text-xs font-medium bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded transition">Upwork →</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="md:col-span-7">
+          <div class="bg-white border border-slate-200 rounded-lg p-7">
+            <div class="text-xs font-mono uppercase tracking-widest text-slate-500 mb-4" x-text="t('proof.casestudyKicker')"></div>
+            <h3 class="text-xl font-bold text-navy" x-text="t('proof.casestudyTitle')"></h3>
+
+            <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+              <div class="bg-slate-50 rounded p-4">
+                <div class="text-2xl font-bold text-navy">40</div>
+                <div class="text-xs text-slate-500 mt-1" x-text="t('proof.metric1')"></div>
+              </div>
+              <div class="bg-slate-50 rounded p-4">
+                <div class="text-2xl font-bold text-navy">99.5%</div>
+                <div class="text-xs text-slate-500 mt-1" x-text="t('proof.metric2')"></div>
+              </div>
+              <div class="bg-slate-50 rounded p-4">
+                <div class="text-2xl font-bold text-navy">€1</div>
+                <div class="text-xs text-slate-500 mt-1" x-text="t('proof.metric3')"></div>
+              </div>
+            </div>
+
+            <p class="mt-6 text-sm text-slate-600 leading-relaxed" x-text="t('proof.casestudyBody')"></p>
+
+            <div class="mt-5 flex flex-wrap gap-2">
+              <template x-for="tag in ['WireGuard','OpenVPN','FastAPI','Nginx','Bash','PowerShell','iptables','Fail2ban','systemd']" :key="tag">
+                <span class="text-xs font-mono bg-slate-100 text-slate-700 px-2 py-1 rounded" x-text="tag"></span>
+              </template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPROACH -->
+  <section id="approach" class="bg-white">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+
+      <div class="max-w-2xl mb-12">
+        <div class="text-xs font-mono uppercase tracking-widest text-brand font-medium" x-text="t('approach.kicker')"></div>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-navy" x-text="t('approach.title')"></h2>
+        <p class="mt-3 text-slate-600" x-text="t('approach.sub')"></p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-px bg-slate-200 border border-slate-200 rounded-lg overflow-hidden">
+        <template x-for="(p, i) in t('approach.principles')" :key="p.t">
+          <div class="bg-white p-6">
+            <div class="flex items-start gap-3 mb-3">
+              <div class="w-8 h-8 bg-slate-100 rounded flex items-center justify-center font-mono text-xs text-slate-600 font-bold" x-text="String(i+1).padStart(2,'0')"></div>
+            </div>
+            <h3 class="font-bold text-navy" x-text="p.t"></h3>
+            <p class="mt-2 text-sm text-slate-600 leading-relaxed" x-text="p.d"></p>
+          </div>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- AUDIT CTA -->
+  <section class="bg-navy text-white">
+    <div class="max-w-7xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-12 gap-8 items-center">
+      <div class="md:col-span-8">
+        <div class="text-xs font-mono uppercase tracking-widest text-brand-light font-medium" x-text="t('audit.kicker')"></div>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold leading-tight" x-text="t('audit.title')"></h2>
+        <p class="mt-4 text-slate-300 leading-relaxed max-w-2xl" x-text="t('audit.sub')"></p>
+
+        <ul class="mt-6 grid sm:grid-cols-2 gap-x-6 gap-y-2 max-w-xl text-sm text-slate-300">
+          <template x-for="b in t('audit.bullets')" :key="b">
+            <li class="flex gap-2">
+              <span class="text-brand-light">→</span>
+              <span x-text="b"></span>
+            </li>
+          </template>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4 md:text-right">
+        <a :href="config.calendlyUrl" target="_blank" rel="noopener"
+           class="inline-flex items-center gap-2 bg-white text-navy px-6 py-3.5 rounded font-bold hover:bg-brand-soft transition">
+          <span x-text="t('audit.cta')"></span>
+          <span>→</span>
+        </a>
+        <div class="mt-4 text-xs text-slate-400" x-text="t('audit.note')"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="bg-white">
+    <div class="max-w-4xl mx-auto px-6 py-20">
+
+      <div class="mb-10">
+        <div class="text-xs font-mono uppercase tracking-widest text-brand font-medium" x-text="t('faq.kicker')"></div>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-navy" x-text="t('faq.title')"></h2>
+      </div>
+
+      <div class="border-t border-slate-200">
+        <template x-for="(qa, i) in t('faq.items')" :key="qa.q">
+          <details class="group border-b border-slate-200" x-data="{ open: false }" :open="open">
+            <summary @click.prevent="open = !open" class="flex cursor-pointer items-start justify-between gap-6 py-5 hover:bg-slate-50 transition px-2 -mx-2 rounded">
+              <span class="font-bold text-navy" x-text="qa.q"></span>
+              <span class="text-2xl text-slate-400 shrink-0 leading-none transition-transform" :class="open ? 'rotate-45' : ''">+</span>
+            </summary>
+            <div class="pb-5 px-2 text-slate-600 leading-relaxed" x-text="qa.a"></div>
+          </details>
+        </template>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="bg-slate-50 border-t border-slate-200">
+    <div class="max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-12 gap-10">
+
+      <div class="md:col-span-5">
+        <div class="text-xs font-mono uppercase tracking-widest text-brand font-medium" x-text="t('contact.kicker')"></div>
+        <h2 class="mt-2 text-3xl md:text-4xl font-bold text-navy" x-text="t('contact.title')"></h2>
+        <p class="mt-3 text-slate-600" x-text="t('contact.sub')"></p>
+
+        <div class="mt-8 space-y-3">
+          <a :href="'mailto:' + config.email" class="block bg-white border border-slate-200 rounded p-4 hover:border-navy transition">
+            <div class="text-xs font-mono uppercase tracking-wider text-slate-500" x-text="t('contact.emailLabel')"></div>
+            <div class="font-medium text-navy mt-0.5" x-text="config.email"></div>
+          </a>
+          <a :href="config.calendlyUrl" target="_blank" rel="noopener" class="block bg-white border border-slate-200 rounded p-4 hover:border-navy transition">
+            <div class="text-xs font-mono uppercase tracking-wider text-slate-500" x-text="t('contact.calendlyLabel')"></div>
+            <div class="font-medium text-navy mt-0.5" x-text="t('contact.calendlyVal')"></div>
+          </a>
+          <a :href="config.linkedin" target="_blank" rel="noopener" class="block bg-white border border-slate-200 rounded p-4 hover:border-navy transition">
+            <div class="text-xs font-mono uppercase tracking-wider text-slate-500">LinkedIn</div>
+            <div class="font-medium text-navy mt-0.5">/in/elkouarti</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="md:col-span-7">
+        <form :action="config.formspreeUrl" method="POST" class="bg-white border border-slate-200 rounded-lg p-7 space-y-5">
+          <div>
+            <label class="text-sm font-medium text-navy" x-text="t('contact.form.name')"></label>
+            <input type="text" name="name" required
+                   class="mt-1.5 w-full bg-slate-50 border border-slate-200 rounded px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-navy transition outline-none"
+                   :placeholder="t('contact.form.namePh')">
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label class="text-sm font-medium text-navy" x-text="t('contact.form.email')"></label>
+              <input type="email" name="email" required
+                     class="mt-1.5 w-full bg-slate-50 border border-slate-200 rounded px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-navy transition outline-none"
+                     placeholder="you@company.com">
+            </div>
+            <div>
+              <label class="text-sm font-medium text-navy" x-text="t('contact.form.company')"></label>
+              <input type="text" name="company"
+                     class="mt-1.5 w-full bg-slate-50 border border-slate-200 rounded px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-navy transition outline-none"
+                     :placeholder="t('contact.form.companyPh')">
+            </div>
+          </div>
+          <div>
+            <label class="text-sm font-medium text-navy" x-text="t('contact.form.message')"></label>
+            <textarea name="message" rows="5" required
+                      class="mt-1.5 w-full bg-slate-50 border border-slate-200 rounded px-3 py-2.5 text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-navy transition outline-none resize-none"
+                      :placeholder="t('contact.form.messagePh')"></textarea>
+          </div>
+          <input type="hidden" name="_subject" value="MKM Systems — New inquiry">
+          <button type="submit"
+                  class="w-full inline-flex items-center justify-center gap-2 bg-navy text-white px-6 py-3 rounded font-medium hover:bg-brand transition">
+            <span x-text="t('contact.form.submit')"></span>
+            <span class="text-xs">→</span>
+          </button>
+          <p class="text-xs text-slate-500 text-center" x-text="t('contact.form.note')"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-navy text-slate-300">
+  <div class="max-w-7xl mx-auto px-6 py-12">
+    <div class="grid md:grid-cols-12 gap-8 mb-10">
+      <div class="md:col-span-5">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 bg-white rounded flex items-center justify-center">
+            <span class="text-navy font-bold text-sm">M</span>
+          </div>
+          <div>
+            <div class="font-bold text-white">MKM Systems</div>
+            <div class="text-[10px] text-slate-400 font-mono uppercase tracking-wider" x-text="t('nav.subtitle')"></div>
+          </div>
+        </div>
+        <p class="mt-4 text-sm text-slate-400 max-w-xs" x-text="t('footer.tagline')"></p>
+      </div>
+
+      <div class="md:col-span-3">
+        <div class="text-xs font-mono uppercase tracking-widest text-slate-400 mb-4" x-text="t('footer.linksLabel')"></div>
+        <ul class="space-y-2 text-sm">
+          <li><a href="#services" class="hover:text-white transition" x-text="t('nav.services')"></a></li>
+          <li><a href="#proof" class="hover:text-white transition" x-text="t('nav.proof')"></a></li>
+          <li><a href="#approach" class="hover:text-white transition" x-text="t('nav.approach')"></a></li>
+          <li><a href="#faq" class="hover:text-white transition" x-text="t('nav.faq')"></a></li>
+        </ul>
+      </div>
+
+      <div class="md:col-span-4">
+        <div class="text-xs font-mono uppercase tracking-widest text-slate-400 mb-4" x-text="t('footer.cryptoLabel')"></div>
+        <details class="group">
+          <summary class="cursor-pointer text-sm hover:text-white transition flex items-center gap-2">
+            <span x-text="t('footer.pgpToggle')"></span>
+            <span class="transition-transform group-open:rotate-45 text-lg leading-none">+</span>
+          </summary>
+          <pre class="mt-3 p-3 bg-navy-soft rounded text-[10px] font-mono text-slate-400 leading-relaxed overflow-x-auto" x-text="config.pgpKey"></pre>
+        </details>
+        <div class="mt-3 text-[10px] font-mono text-slate-500 break-all" x-text="config.pgpFingerprint"></div>
+      </div>
+    </div>
+
+    <div class="border-t border-navy-light pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
+      <p class="text-slate-400">
+        © <span x-text="year"></span> <span x-text="config.legalName"></span> · Toledo, ES
+      </p>
+      <p class="text-slate-500 font-mono" x-text="t('footer.note')"></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const CONFIG = {
+    legalName: "Mohamed Kamil El Kouarti Mechhidan",
+    brandName: "Kamil Mechhidan",
+    email: "kouartimohamedkamil@gmail.com",
+    linkedin: "https://www.linkedin.com/in/elkouarti/",
+    github: "https://github.com/MohamedKamil-hub",
+    upwork: "https://www.upwork.com/freelancers/~01ddd746a4c14200b7",
+    calendlyUrl: "https://calendly.com/kouartimohamedkamil/30min",
+    formspreeUrl: "https://formspree.io/f/xnjlynrv",
+    pgpFingerprint: "ADB5 2C0B 5917 D701 EB80  EC26 3E1F D2DD F81B C8CD",
+    pgpKey: `-----BEGIN PGP PUBLIC KEY BLOCK-----
+xjMEae5sShYJKwYBBAHaRw8BAQdAsAm8dbLdp+tb/1Nt6tRxpJ3MmluN7i7W
+Sy9WkiOO9rvNQk1vaGFtZWQgS2FtaWwgRWwgS291YXJ0aSBNZWNoaGlkYW4g
+PGtvdWFydGltb2hhbWVka2FtaWxAZ21haWwuY29tPsLAEwQTFgoAhQWCae5s
+SgMLCQcJED4f0t34G8jNRRQAAAAAABwAIHNhbHRAbm90YXRpb25zLm9wZW5w
+Z3Bqcy5vcmeAaxqLnrRzyX+IQUeQz4un1/TaEWP7olrrE6cn2Y+GbwUVCggO
+DAQWAAIBAhkBApsDAh4BFiEErbUsC1kX1wHrgOwmPh/S3fgbyM0AAFsqAQCT
+s8cLCbFrItEat3s2lrN6PzhFbBjsGZvXnKaCftz4GQD+JSwHJn1tc/QVnwgt
++4dVr8rCeTLCXqRdGOQAerax8w7OOARp7mxKEgorBgEEAZdVAQUBAQdA/tod
+JJGwQhw3yBMnYiBZMuHJJRVpfmL2BKgjHc5bYFQDAQgHwr4EGBYKAHAFgmnu
+bEoJED4f0t34G8jNRRQAAAAAABwAIHNhbHRAbm90YXRpb25zLm9wZW5wZ3Bq
+cy5vcmf3Mk47eBp1BrCj/ed83NCnwClJx3MNo95h5eu7djN10wKbDBYhBK21
+LAtZF9cB64DsJj4f0t34G8jNAABnmQD7BDgyNnKDOr5B7dFXew2zH+r5QoGf
+e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
+=fnM+
+-----END PGP PUBLIC KEY BLOCK-----`,
+  };
+
+  function site() {
+    return {
+      lang: 'en',
+      year: new Date().getFullYear(),
+      config: CONFIG,
+      init() {
+        const saved = localStorage.getItem('mkm-lang');
+        if (saved === 'es' || saved === 'en') this.lang = saved;
+        else if ((navigator.language || '').toLowerCase().startsWith('es')) this.lang = 'es';
+        document.documentElement.lang = this.lang;
+      },
+      toggleLang() {
+        this.lang = this.lang === 'en' ? 'es' : 'en';
+        localStorage.setItem('mkm-lang', this.lang);
+        document.documentElement.lang = this.lang;
+      },
+      t(path) {
+        const parts = path.split('.');
+        let n = I18N[this.lang];
+        for (const p of parts) { n = n?.[p]; if (n === undefined) break; }
+        return n;
+      },
+    };
+  }
+
+  const I18N = {
+    en: {
+      top: { status: 'Available for new projects', location: 'Toledo, Spain · CET' },
+      nav: { subtitle: 'Infrastructure', services: 'Services', proof: 'Proof', approach: 'Approach', faq: 'FAQ', cta: 'Free 15-min audit' },
+      hero: {
+        badge: 'Available for projects · Booking April–May',
+        title: 'VPN and infrastructure for small teams.',
+        sub: 'Self-hosted setups that run on a 1 GB VPS, scale to bigger hardware automatically, and never touch your data. Pay once. Own the stack.',
+        ctaPrimary: 'Book a free 15-min audit',
+        ctaSecondary: 'See services and pricing',
+        trust1: 'Fixed prices, no subscriptions',
+        trust2: 'Same-day delivery on Upwork',
+        trust3: 'On-premise, your hardware',
+        statsTitle: 'Production track record',
+        stat1: 'Concurrent users',
+        stat2: 'Measured uptime',
+        stat3: 'Min hardware tested',
+        stat4: 'Latency observed',
+        statsNote: 'Real numbers from a production deployment during my engagement at:',
+        deployedAt: 'Deployed at',
+      },
+      services: {
+        kicker: '§01 — Services',
+        title: 'Two productized services. Larger work scoped on call.',
+        sub: 'Fixed-scope work goes through Upwork at fixed prices. Anything bigger we scope on a 15-minute call.',
+        fixed: [
+          { id: 'wireguard', tag: 'Networking', timeframe: '1-day delivery',
+            name: 'Self-hosted WireGuard VPN',
+            desc: 'I install a self-hosted VPN panel on your Linux VPS. Your employees connect by scanning a QR code. Your data never leaves your infrastructure.',
+            features: ['Web panel + QR onboarding','Site-to-site for remote offices','Backup script + handover document','Branded with your name'],
+            price: '€30', priceNote: 'fixed price',
+            href: 'https://www.upwork.com/services/product/development-it-i-will-install-a-self-hosted-wireguard-vpn-panel-on-your-linux-vps-2047988740896181398',
+            cta: 'Buy on Upwork' },
+          { id: 'nginx', tag: 'Web server', timeframe: '2-day delivery',
+            name: 'Nginx fix, optimize, setup',
+            desc: 'I diagnose and fix Nginx issues. 502 errors, broken SSL, slow response times, security misconfiguration. Most problems resolved same-day.',
+            features: ['Diagnostic and root cause','Fix, optimize, harden','Documented handover','2 free revisions'],
+            price: '€25', priceNote: 'fixed price',
+            href: 'https://www.upwork.com/freelancers/~01ddd746a4c14200b7',
+            cta: 'Buy on Upwork' },
+        ],
+        largerKicker: 'For larger needs',
+        largerTitle: 'Custom infrastructure work.',
+        largerCta: 'Book a call',
+        larger: [
+          { id: 'consol', name: 'SaaS bill consolidation', desc: 'Replace stacked monthly subscriptions with a self-hosted equivalent on hardware you own. Scoped per engagement.' },
+          { id: 'arch', name: 'Architecture and migration', desc: 'Server consolidation, cloud-to-VPS migration, hardening, automation, runbooks. Fixed scope, fixed price.' },
+        ],
+      },
+      proof: {
+        kicker: '§02 — Proof',
+        title: 'One person. Real production deployments.',
+        sub: 'You will work directly with me. No account managers, no offshore subcontractors. Everything I deliver, I built and documented.',
+        role: 'Independent infrastructure engineer',
+        basedIn: 'Based in', recently: 'Recently', lang: 'Languages', respond: 'Responds in', respondVal: '< 24 hours',
+        casestudyKicker: 'Case study',
+        casestudyTitle: 'WireGuard VPN panel for SECCION9 Consultoría',
+        metric1: 'Concurrent users', metric2: 'Uptime measured', metric3: 'Monthly VPS cost',
+        casestudyBody: 'Built a production VPN management panel from scratch, deployed across 3+ SMB networks. Hybrid WireGuard + OpenVPN dual-stack hub bypasses corporate firewalls that block UDP. Idempotent installer auto-scales to available hardware. Now part of SECCION9\'s managed cybersecurity offering.',
+      },
+      approach: {
+        kicker: '§03 — Approach',
+        title: 'How I build everything.',
+        sub: 'These are not slogans. They are the rules every project I deliver follows. They exist to protect you from common failure modes in infrastructure work.',
+        principles: [
+          { t: 'Lightweight by default', d: 'Runs on a 1 GB RAM VPS. Auto-detects bigger hardware and scales workers, cache, and memory limits accordingly.' },
+          { t: 'Idempotent installers', d: 'Every script can be re-run safely. Migrations, kernel updates, and bad days do not corrupt state.' },
+          { t: 'Zero hardcoding', d: 'All configuration in environment variables. Brand names, paths, ports — one .env file changes everything.' },
+          { t: 'No databases when avoidable', d: 'State in plain JSON or YAML with atomic writes. Your backup is a tar of one directory.' },
+          { t: 'Open and inspectable', d: 'No dependency jails. You can swap me out, integrate other software, or take the project elsewhere.' },
+          { t: 'On-premise, on your terms', d: 'Everything runs on hardware you control. I never store or transmit your data.' },
+        ],
+      },
+      audit: {
+        kicker: '§04 — Start here',
+        title: 'Free 15-minute infrastructure audit.',
+        sub: 'A short, free conversation. We pick one specific problem you are facing — a SaaS bill that is too high, a server that keeps falling over, a VPN that does not scale. You leave with concrete next steps.',
+        bullets: ['One specific problem', '15 minutes by video', 'Concrete recommendations', 'No pitch, no obligation'],
+        cta: 'Book a 15-min slot',
+        note: 'Calendar runs in CET',
+      },
+      faq: {
+        kicker: '§05 — FAQ',
+        title: 'Questions clients actually ask.',
+        items: [
+          { q: 'Are you really just one person? What if you get hit by a bus?', a: 'Yes, one person. That is why everything I deliver includes the full source, plain-text configuration, and a runbook with the exact commands to restore, restart, or roll back. Any competent Linux administrator can take over in a day. There is no proprietary platform you depend on.' },
+          { q: 'What if my IT person does not like you?', a: 'I work with IT staff, not against them. Everything I deliver is documented in plain English with the reasoning behind each decision. I have had IT people read my handover docs and ask me to come back for the next project.' },
+          { q: 'Why should I trust you with my network?', a: 'You should not, until you have evidence. Start with the free 15-minute audit, then a fixed-price productized service on Upwork (€25 to €30), and only commit to larger work once you have seen me deliver. Upwork escrows the payment; you release it only when satisfied.' },
+          { q: 'Why no subscriptions?', a: 'Most small businesses already pay too many monthly fees. I build infrastructure you pay for once and own. Optional ongoing maintenance is scoped separately if you want it, but the project itself is yours forever.' },
+          { q: 'Do you touch our data?', a: 'No. Everything runs on hardware you control. During the free audit I work from public information only. During paid engagements I work on credentials you rotate after the work, or in a sandbox environment you provide.' },
+          { q: 'What happens if it breaks after handover?', a: 'Every delivery includes a runbook with restore, restart, and rollback procedures. State is plain JSON in a directory, so a new VPS plus a tar restore brings everything back. Optional follow-up support is scoped separately.' },
+          { q: 'Can we leave anytime?', a: 'Yes. Nothing I build locks you in. Configuration is in plain files, the code is yours, you can hire any other engineer to take over the project.' },
+          { q: 'Are you a registered company?', a: 'I operate as an independent consultant from Toledo, Spain. Productized services are invoiced and escrowed through Upwork. Larger consulting engagements above the autónomo threshold are invoiced directly with full Spanish tax documentation. Invoicing details are confirmed during scoping.' },
+        ],
+      },
+      contact: {
+        kicker: '§06 — Contact',
+        title: 'Talk to a person, not a funnel.',
+        sub: 'I read every message and reply within 24 hours. The form goes straight to my inbox. The Calendly slot is free and skips the back-and-forth.',
+        emailLabel: 'Email · PGP available',
+        calendlyLabel: 'Calendar · 15-min audit',
+        calendlyVal: 'Book a slot directly',
+        form: {
+          name: 'Your name', namePh: 'How you want to be addressed',
+          email: 'Email', emailPh: 'you@company.com',
+          company: 'Company', companyPh: 'Optional',
+          message: 'What are you working on?', messagePh: 'A SaaS bill, a server problem, an architecture decision — start with the one thing on your mind.',
+          submit: 'Send message',
+          note: 'Form goes to a real inbox. No autoresponder, no funnel.',
+        },
+      },
+      footer: {
+        tagline: 'VPN and infrastructure for small teams. Toledo, Spain.',
+        linksLabel: 'Navigate',
+        cryptoLabel: 'Cryptographic identity',
+        pgpToggle: 'View PGP public key',
+        note: 'No tracking · No cookies · No bullshit',
+      },
+    },
+    es: {
+      top: { status: 'Disponible para nuevos proyectos', location: 'Toledo, España · CET' },
+      nav: { subtitle: 'Infraestructura', services: 'Servicios', proof: 'Pruebas', approach: 'Enfoque', faq: 'FAQ', cta: 'Auditoría gratis · 15 min' },
+      hero: {
+        badge: 'Disponible para proyectos · Reservas abril–mayo',
+        title: 'VPN e infraestructura para equipos pequeños.',
+        sub: 'Montajes autoalojados que funcionan en un VPS de 1 GB, escalan automáticamente en hardware mayor y nunca tocan tus datos. Pago único. Tú eres dueño del stack.',
+        ctaPrimary: 'Reservar auditoría · 15 min',
+        ctaSecondary: 'Ver servicios y precios',
+        trust1: 'Precios fijos, sin suscripciones',
+        trust2: 'Entrega en el día vía Upwork',
+        trust3: 'On-premise, tu hardware',
+        statsTitle: 'Trayectoria en producción',
+        stat1: 'Usuarios concurrentes',
+        stat2: 'Uptime medido',
+        stat3: 'Hardware mínimo probado',
+        stat4: 'Latencia observada',
+        statsNote: 'Cifras reales de un despliegue en producción durante mi colaboración en:',
+        deployedAt: 'Desplegado en',
+      },
+      services: {
+        kicker: '§01 — Servicios',
+        title: 'Dos servicios cerrados. Trabajos mayores se presupuestan en llamada.',
+        sub: 'El trabajo de alcance fijo va por Upwork a precio cerrado. Cualquier cosa mayor lo presupuestamos en una llamada de 15 minutos.',
+        fixed: [
+          { id: 'wireguard', tag: 'Red', timeframe: 'Entrega en 1 día',
+            name: 'VPN WireGuard autoalojada',
+            desc: 'Instalo un panel VPN autoalojado en tu VPS Linux. Los empleados se conectan escaneando un QR. Tus datos no salen de tu infraestructura.',
+            features: ['Panel web + alta por QR','Site-to-site entre oficinas','Script de backup + entrega documentada','Marca personalizada con tu nombre'],
+            price: '30 €', priceNote: 'precio fijo',
+            href: 'https://www.upwork.com/services/product/development-it-i-will-install-a-self-hosted-wireguard-vpn-panel-on-your-linux-vps-2047988740896181398',
+            cta: 'Comprar en Upwork' },
+          { id: 'nginx', tag: 'Servidor web', timeframe: 'Entrega en 2 días',
+            name: 'Nginx: arreglar, optimizar, montar',
+            desc: 'Diagnostico y arreglo problemas de Nginx. Errores 502, SSL roto, lentitud, configuraciones inseguras. La mayoría se resuelven en el día.',
+            features: ['Diagnóstico y causa raíz','Arreglo, optimización, hardening','Entrega documentada','2 revisiones incluidas'],
+            price: '25 €', priceNote: 'precio fijo',
+            href: 'https://www.upwork.com/freelancers/~01ddd746a4c14200b7',
+            cta: 'Comprar en Upwork' },
+        ],
+        largerKicker: 'Para necesidades mayores',
+        largerTitle: 'Trabajos de infraestructura a medida.',
+        largerCta: 'Reservar llamada',
+        larger: [
+          { id: 'consol', name: 'Consolidación de facturas SaaS', desc: 'Sustituyo cuotas mensuales apiladas por un equivalente autoalojado en hardware tuyo. Presupuestado por proyecto.' },
+          { id: 'arch', name: 'Arquitectura y migración', desc: 'Consolidación de servidores, migración cloud→VPS, hardening, automatización y runbooks. Alcance fijo, precio fijo.' },
+        ],
+      },
+      proof: {
+        kicker: '§02 — Pruebas',
+        title: 'Una persona. Despliegues reales en producción.',
+        sub: 'Trabajas directamente conmigo. Sin gestores de cuenta, sin subcontratas. Todo lo que entrego lo he construido y documentado yo.',
+        role: 'Ingeniero de infraestructura independiente',
+        basedIn: 'Ubicación', recently: 'Recientemente', lang: 'Idiomas', respond: 'Responde en', respondVal: '< 24 horas',
+        casestudyKicker: 'Caso de estudio',
+        casestudyTitle: 'Panel VPN WireGuard para SECCION9 Consultoría',
+        metric1: 'Usuarios concurrentes', metric2: 'Uptime medido', metric3: 'Coste VPS mensual',
+        casestudyBody: 'Construí desde cero un panel de gestión VPN en producción, desplegado en 3+ redes SMB. Hub híbrido WireGuard + OpenVPN sortea firewalls corporativos que bloquean UDP. Instalador idempotente que escala automáticamente al hardware disponible. Ahora forma parte de la oferta de ciberseguridad gestionada de SECCION9.',
+      },
+      approach: {
+        kicker: '§03 — Enfoque',
+        title: 'Cómo construyo todo.',
+        sub: 'Esto no son eslóganes. Son las reglas que sigue cada proyecto que entrego. Existen para protegerte de los modos de fallo habituales en infraestructura.',
+        principles: [
+          { t: 'Ligero por defecto', d: 'Funciona en un VPS de 1 GB de RAM. Detecta hardware mayor y ajusta workers, caché y memoria automáticamente.' },
+          { t: 'Instaladores idempotentes', d: 'Cada script puede reejecutarse sin riesgo. Migraciones, actualizaciones de kernel y días malos no corrompen el estado.' },
+          { t: 'Cero hardcoding', d: 'Toda la configuración en variables de entorno. Marcas, rutas, puertos — un único .env cambia todo.' },
+          { t: 'Sin bases de datos si no hace falta', d: 'Estado en JSON o YAML plano con escrituras atómicas. Tu backup es un tar de un directorio.' },
+          { t: 'Abierto e inspeccionable', d: 'Sin cárceles de dependencias. Puedes sustituirme, integrar otro software o llevarte el proyecto.' },
+          { t: 'On-premise, en tus términos', d: 'Todo corre en hardware que tú controlas. Yo nunca almaceno ni transmito tus datos.' },
+        ],
+      },
+      audit: {
+        kicker: '§04 — Empieza aquí',
+        title: 'Auditoría de infraestructura · 15 min · gratis.',
+        sub: 'Una conversación corta y gratuita. Elegimos un problema concreto — una factura SaaS demasiado alta, un servidor que se cae, una VPN que no escala. Te llevas pasos siguientes concretos.',
+        bullets: ['Un problema concreto', '15 minutos por videollamada', 'Recomendaciones aplicables', 'Sin venta, sin compromiso'],
+        cta: 'Reservar 15 min',
+        note: 'Agenda en horario CET',
+      },
+      faq: {
+        kicker: '§05 — FAQ',
+        title: 'Preguntas que hacen los clientes de verdad.',
+        items: [
+          { q: '¿De verdad eres una sola persona? ¿Y si te atropella un autobús?', a: 'Sí, una persona. Por eso cada entrega incluye el código fuente completo, configuración en archivos planos y un runbook con los comandos exactos para restaurar, reiniciar o revertir. Cualquier administrador Linux competente puede tomar el relevo en un día. No dependes de ninguna plataforma propietaria.' },
+          { q: '¿Y si a mi informático no le caigo bien?', a: 'Trabajo con el equipo de IT, no contra él. Todo lo que entrego está documentado en lenguaje claro con el razonamiento detrás de cada decisión. He tenido informáticos leer mis docs de entrega y pedirme volver para el siguiente proyecto.' },
+          { q: '¿Por qué debería confiarte mi red?', a: 'No deberías, hasta tener pruebas. Empieza por la auditoría gratuita de 15 minutos, luego un servicio cerrado en Upwork (25–30 €), y solo comprométete con trabajo mayor cuando me hayas visto entregar. Upwork retiene el pago en escrow; lo liberas tú solo cuando estás satisfecho.' },
+          { q: '¿Por qué sin suscripciones?', a: 'La mayoría de pymes ya pagan demasiadas cuotas mensuales. Construyo infraestructura que se paga una vez y es tuya. El mantenimiento continuado opcional se presupuesta aparte si lo quieres, pero el proyecto en sí es tuyo para siempre.' },
+          { q: '¿Tocas nuestros datos?', a: 'No. Todo corre en hardware que controlas tú. En la auditoría gratuita trabajo solo con información pública. En proyectos pagados trabajo con credenciales que rotas tras el trabajo, o en un entorno sandbox que tú proveas.' },
+          { q: '¿Qué pasa si se rompe tras la entrega?', a: 'Cada entrega incluye un runbook con procedimientos de restauración, reinicio y rollback. El estado es JSON plano en un directorio, así que un VPS nuevo más un restore de tar lo deja todo en pie. El soporte continuado opcional se presupuesta aparte.' },
+          { q: '¿Podemos irnos cuando queramos?', a: 'Sí. Nada de lo que construyo te encierra. La configuración está en archivos planos, el código es tuyo, puedes contratar a cualquier otro ingeniero para tomar el relevo.' },
+          { q: '¿Estás dado de alta?', a: 'Trabajo como consultor independiente desde Toledo, España. Los servicios cerrados se facturan y se retienen en escrow vía Upwork. Los compromisos de consultoría mayores por encima del umbral de autónomo se facturan directamente con la documentación fiscal española completa. Los detalles de facturación se confirman durante el alcance del proyecto.' },
+        ],
+      },
+      contact: {
+        kicker: '§06 — Contacto',
+        title: 'Habla con una persona, no con un embudo.',
+        sub: 'Leo cada mensaje y respondo en menos de 24 horas. El formulario va directo a mi inbox. La cita en Calendly es gratis y se salta el ida y vuelta.',
+        emailLabel: 'Email · PGP disponible',
+        calendlyLabel: 'Calendario · auditoría 15 min',
+        calendlyVal: 'Reservar plaza directamente',
+        form: {
+          name: 'Tu nombre', namePh: 'Como prefieras que te llame',
+          email: 'Email', emailPh: 'tu@empresa.com',
+          company: 'Empresa', companyPh: 'Opcional',
+          message: '¿En qué estás trabajando?', messagePh: 'Una factura SaaS, un servidor problemático, una decisión de arquitectura — empieza por lo que tengas en mente.',
+          submit: 'Enviar mensaje',
+          note: 'El formulario va a un inbox real. Sin autorespuesta, sin embudo.',
+        },
+      },
+      footer: {
+        tagline: 'VPN e infraestructura para equipos pequeños. Toledo, España.',
+        linksLabel: 'Navegar',
+        cryptoLabel: 'Identidad criptográfica',
+        pgpToggle: 'Ver clave PGP pública',
+        note: 'Sin tracking · Sin cookies · Sin tonterías',
+      },
+    },
+  };
+</script>
+
+</body>
+</html>
