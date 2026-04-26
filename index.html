@@ -123,7 +123,15 @@
           </a>
         </div>
 
-        <div class="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-500">
+        <div class="mt-8 inline-flex items-start gap-3 bg-white border-l-4 border-ok rounded-r p-4 max-w-xl">
+          <span class="text-ok text-xl leading-none mt-0.5">→</span>
+          <div>
+            <div class="font-bold text-navy text-base" x-text="t('hero.guarantee')"></div>
+            <div class="text-sm text-slate-600 mt-0.5" x-text="t('hero.guaranteeSub')"></div>
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-slate-500">
           <span class="flex items-center gap-1.5"><span class="text-ok">✓</span> <span x-text="t('hero.trust1')"></span></span>
           <span class="flex items-center gap-1.5"><span class="text-ok">✓</span> <span x-text="t('hero.trust2')"></span></span>
           <span class="flex items-center gap-1.5"><span class="text-ok">✓</span> <span x-text="t('hero.trust3')"></span></span>
@@ -179,6 +187,45 @@
         <p class="mt-3 text-slate-600" x-text="t('services.sub')"></p>
       </div>
 
+      <!-- Primary B2B path: scoped engagement -->
+      <div class="bg-navy text-white rounded-lg p-7 md:p-10 mb-10">
+        <div class="grid md:grid-cols-12 gap-8 items-start">
+          <div class="md:col-span-8">
+            <div class="text-xs font-mono uppercase tracking-widest text-brand-light font-medium" x-text="t('services.b2bKicker')"></div>
+            <h3 class="mt-2 text-2xl md:text-3xl font-bold" x-text="t('services.b2bTitle')"></h3>
+            <p class="mt-3 text-slate-300 leading-relaxed" x-text="t('services.b2bDesc')"></p>
+
+            <ul class="mt-5 grid sm:grid-cols-2 gap-x-6 gap-y-2 text-sm text-slate-200">
+              <template x-for="f in t('services.b2bFeatures')" :key="f">
+                <li class="flex gap-2">
+                  <span class="text-ok shrink-0">✓</span>
+                  <span x-text="f"></span>
+                </li>
+              </template>
+            </ul>
+          </div>
+
+          <div class="md:col-span-4 flex flex-col gap-3">
+            <a :href="config.calendlyUrl" target="_blank" rel="noopener"
+               class="inline-flex items-center justify-center gap-2 bg-white text-navy px-5 py-3 rounded font-bold hover:bg-brand-soft transition">
+              <span x-text="t('services.b2bCta')"></span>
+              <span>→</span>
+            </a>
+            <a href="#contact"
+               class="inline-flex items-center justify-center gap-2 border border-slate-500 text-white px-5 py-3 rounded font-medium hover:bg-slate-800 transition">
+              <span x-text="t('services.b2bCtaSecondary')"></span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary: Upwork productized services -->
+      <div class="mb-3">
+        <div class="text-xs font-mono uppercase tracking-widest text-slate-500 font-medium" x-text="t('services.upworkKicker')"></div>
+        <h3 class="mt-1 text-lg font-bold text-navy" x-text="t('services.upworkTitle')"></h3>
+        <p class="mt-1 text-sm text-slate-600" x-text="t('services.upworkSub')"></p>
+      </div>
+
       <div class="grid md:grid-cols-2 gap-6 mb-10">
         <template x-for="s in t('services.fixed')" :key="s.id">
           <article class="border border-slate-200 rounded-lg p-7 hover:border-navy hover:shadow-md transition">
@@ -216,27 +263,6 @@
         </template>
       </div>
 
-      <div class="bg-slate-50 border border-slate-200 rounded-lg p-7 md:p-8">
-        <div class="flex items-start justify-between flex-wrap gap-4 mb-5">
-          <div>
-            <div class="text-xs font-mono uppercase tracking-widest text-slate-500" x-text="t('services.largerKicker')"></div>
-            <h3 class="mt-1 text-xl font-bold text-navy" x-text="t('services.largerTitle')"></h3>
-          </div>
-          <a :href="config.calendlyUrl" target="_blank" rel="noopener"
-             class="text-sm font-medium text-brand hover:underline">
-            <span x-text="t('services.largerCta')"></span> →
-          </a>
-        </div>
-
-        <div class="grid md:grid-cols-2 gap-5">
-          <template x-for="l in t('services.larger')" :key="l.id">
-            <div class="bg-white border border-slate-200 rounded p-5">
-              <h4 class="font-bold text-navy" x-text="l.name"></h4>
-              <p class="mt-2 text-sm text-slate-600" x-text="l.desc"></p>
-            </div>
-          </template>
-        </div>
-      </div>
     </div>
   </section>
 
@@ -558,12 +584,14 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
       hero: {
         badge: 'Available for projects · Booking April–May',
         title: 'VPN and infrastructure for small teams.',
-        sub: 'Self-hosted setups that run on a 1 GB VPS, scale to bigger hardware automatically, and never touch your data. Pay once. Own the stack.',
+        sub: 'Self-hosted setups for Spanish SMBs. Built first on my hardware, deployed on yours when you approve. Pay once. Own the stack.',
         ctaPrimary: 'Book a free 15-min audit',
-        ctaSecondary: 'See services and pricing',
+        ctaSecondary: 'See how I work',
+        guarantee: 'I deliver first. You pay when it works.',
+        guaranteeSub: 'I build the system, demo it live, then hand over credentials. If it does not work, you owe nothing.',
         trust1: 'Fixed prices, no subscriptions',
-        trust2: 'Same-day delivery on Upwork',
-        trust3: 'On-premise, your hardware',
+        trust2: 'On-premise, your hardware',
+        trust3: 'Documented handover, no lock-in',
         statsTitle: 'Production track record',
         stat1: 'Concurrent users',
         stat2: 'Measured uptime',
@@ -573,9 +601,25 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
         deployedAt: 'Deployed at',
       },
       services: {
-        kicker: '§01 — Services',
-        title: 'Two productized services. Larger work scoped on call.',
-        sub: 'Fixed-scope work goes through Upwork at fixed prices. Anything bigger we scope on a 15-minute call.',
+        kicker: '§01 — How I work',
+        title: 'Two ways to work with me.',
+        sub: 'Direct engagement for serious infrastructure work. Productized fixed-price tasks on Upwork for one-off needs.',
+        b2bKicker: 'Primary · Direct engagement',
+        b2bTitle: 'Custom infrastructure for your business.',
+        b2bDesc: 'I study your current setup from the outside, build a hardened, optimized version on my own VPS, and show you what is possible. If you like it, we deploy it on your hardware. You pay only after the system is running and verified.',
+        b2bFeatures: [
+          'I deliver first, you pay on confirmation',
+          'No access to your systems during build',
+          'Fixed price, no surprises',
+          'Documented handover with runbooks',
+          'You own everything, no lock-in',
+          'Direct work, no subcontractors',
+        ],
+        b2bCta: 'Book a 15-min audit',
+        b2bCtaSecondary: 'Send me a message',
+        upworkKicker: 'Secondary · Productized services',
+        upworkTitle: 'Quick fixes through Upwork.',
+        upworkSub: 'For one-off tasks under €50. Upwork handles invoicing and escrows the payment.',
         fixed: [
           { id: 'wireguard', tag: 'Networking', timeframe: '1-day delivery',
             name: 'Self-hosted WireGuard VPN',
@@ -591,13 +635,6 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
             price: '€25', priceNote: 'fixed price',
             href: 'https://www.upwork.com/freelancers/~01ddd746a4c14200b7',
             cta: 'Buy on Upwork' },
-        ],
-        largerKicker: 'For larger needs',
-        largerTitle: 'Custom infrastructure work.',
-        largerCta: 'Book a call',
-        larger: [
-          { id: 'consol', name: 'SaaS bill consolidation', desc: 'Replace stacked monthly subscriptions with a self-hosted equivalent on hardware you own. Scoped per engagement.' },
-          { id: 'arch', name: 'Architecture and migration', desc: 'Server consolidation, cloud-to-VPS migration, hardening, automation, runbooks. Fixed scope, fixed price.' },
         ],
       },
       proof: {
@@ -636,14 +673,14 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
         kicker: '§05 — FAQ',
         title: 'Questions clients actually ask.',
         items: [
+          { q: 'Why should I trust you with my infrastructure?', a: 'Simple. I deliver first. I build the system on my own hardware, show you it working, and only deploy on yours when you approve. You pay within 48 hours of delivery, before I hand over the runbooks and admin credentials. If it does not work, you owe nothing.' },
+          { q: 'How do you build something for my business without accessing my systems?', a: 'I study what is publicly visible — your domain, public services, the SaaS tools you use, your sector. From there I build a hardened, optimized version of the relevant infrastructure on my own VPS. You see it working before any access is granted. If you decide to proceed, I deploy on your hardware with credentials you rotate after the work.' },
           { q: 'Are you really just one person? What if you get hit by a bus?', a: 'Yes, one person. That is why everything I deliver includes the full source, plain-text configuration, and a runbook with the exact commands to restore, restart, or roll back. Any competent Linux administrator can take over in a day. There is no proprietary platform you depend on.' },
-          { q: 'What if my IT person does not like you?', a: 'I work with IT staff, not against them. Everything I deliver is documented in plain English with the reasoning behind each decision. I have had IT people read my handover docs and ask me to come back for the next project.' },
-          { q: 'Why should I trust you with my network?', a: 'You should not, until you have evidence. Start with the free 15-minute audit, then a fixed-price productized service on Upwork (€25 to €30), and only commit to larger work once you have seen me deliver. Upwork escrows the payment; you release it only when satisfied.' },
+          { q: 'What if my IT person does not like you?', a: 'I work with IT staff, not against them. Everything I deliver is documented in plain English with the reasoning behind each decision. The handover doc is written so an internal IT person can take ownership immediately.' },
           { q: 'Why no subscriptions?', a: 'Most small businesses already pay too many monthly fees. I build infrastructure you pay for once and own. Optional ongoing maintenance is scoped separately if you want it, but the project itself is yours forever.' },
-          { q: 'Do you touch our data?', a: 'No. Everything runs on hardware you control. During the free audit I work from public information only. During paid engagements I work on credentials you rotate after the work, or in a sandbox environment you provide.' },
           { q: 'What happens if it breaks after handover?', a: 'Every delivery includes a runbook with restore, restart, and rollback procedures. State is plain JSON in a directory, so a new VPS plus a tar restore brings everything back. Optional follow-up support is scoped separately.' },
           { q: 'Can we leave anytime?', a: 'Yes. Nothing I build locks you in. Configuration is in plain files, the code is yours, you can hire any other engineer to take over the project.' },
-          { q: 'Are you a registered company?', a: 'I operate as an independent consultant from Toledo, Spain. Productized services are invoiced and escrowed through Upwork. Larger consulting engagements above the autónomo threshold are invoiced directly with full Spanish tax documentation. Invoicing details are confirmed during scoping.' },
+          { q: 'Are you a registered company?', a: 'I operate as an independent consultant from Toledo, Spain. Direct engagements are invoiced with full Spanish tax documentation. Smaller productized services on Upwork are invoiced through the platform with payment in escrow. Invoicing details are confirmed during scoping.' },
         ],
       },
       contact: {
@@ -676,12 +713,14 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
       hero: {
         badge: 'Disponible para proyectos · Reservas abril–mayo',
         title: 'VPN e infraestructura para equipos pequeños.',
-        sub: 'Montajes autoalojados que funcionan en un VPS de 1 GB, escalan automáticamente en hardware mayor y nunca tocan tus datos. Pago único. Tú eres dueño del stack.',
+        sub: 'Montajes autoalojados para pymes españolas. Construido primero en mi hardware, desplegado en el tuyo cuando lo apruebas. Pago único. Tú eres dueño del stack.',
         ctaPrimary: 'Reservar auditoría · 15 min',
-        ctaSecondary: 'Ver servicios y precios',
+        ctaSecondary: 'Ver cómo trabajo',
+        guarantee: 'Entrego primero. Pagas cuando funciona.',
+        guaranteeSub: 'Construyo el sistema, lo demuestro en vivo, y luego entrego credenciales. Si no funciona, no debes nada.',
         trust1: 'Precios fijos, sin suscripciones',
-        trust2: 'Entrega en el día vía Upwork',
-        trust3: 'On-premise, tu hardware',
+        trust2: 'On-premise, tu hardware',
+        trust3: 'Entrega documentada, sin lock-in',
         statsTitle: 'Trayectoria en producción',
         stat1: 'Usuarios concurrentes',
         stat2: 'Uptime medido',
@@ -691,9 +730,25 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
         deployedAt: 'Desplegado en',
       },
       services: {
-        kicker: '§01 — Servicios',
-        title: 'Dos servicios cerrados. Trabajos mayores se presupuestan en llamada.',
-        sub: 'El trabajo de alcance fijo va por Upwork a precio cerrado. Cualquier cosa mayor lo presupuestamos en una llamada de 15 minutos.',
+        kicker: '§01 — Cómo trabajo',
+        title: 'Dos formas de trabajar conmigo.',
+        sub: 'Compromiso directo para trabajos de infraestructura serios. Servicios cerrados a precio fijo en Upwork para necesidades puntuales.',
+        b2bKicker: 'Principal · Compromiso directo',
+        b2bTitle: 'Infraestructura a medida para tu empresa.',
+        b2bDesc: 'Estudio tu setup actual desde fuera, construyo una versión endurecida y optimizada en mi propio VPS, y te muestro lo que es posible. Si te gusta, lo desplegamos en tu hardware. Pagas solo después de que el sistema esté funcionando y verificado.',
+        b2bFeatures: [
+          'Entrego primero, pagas al confirmar',
+          'Sin acceso a tus sistemas durante la construcción',
+          'Precio fijo, sin sorpresas',
+          'Entrega documentada con runbooks',
+          'Tú eres dueño de todo, sin lock-in',
+          'Trabajo directo, sin subcontratas',
+        ],
+        b2bCta: 'Reservar auditoría 15 min',
+        b2bCtaSecondary: 'Enviarme un mensaje',
+        upworkKicker: 'Secundario · Servicios cerrados',
+        upworkTitle: 'Arreglos rápidos vía Upwork.',
+        upworkSub: 'Para tareas puntuales por debajo de 50 €. Upwork gestiona la facturación y retiene el pago en escrow.',
         fixed: [
           { id: 'wireguard', tag: 'Red', timeframe: 'Entrega en 1 día',
             name: 'VPN WireGuard autoalojada',
@@ -709,13 +764,6 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
             price: '25 €', priceNote: 'precio fijo',
             href: 'https://www.upwork.com/freelancers/~01ddd746a4c14200b7',
             cta: 'Comprar en Upwork' },
-        ],
-        largerKicker: 'Para necesidades mayores',
-        largerTitle: 'Trabajos de infraestructura a medida.',
-        largerCta: 'Reservar llamada',
-        larger: [
-          { id: 'consol', name: 'Consolidación de facturas SaaS', desc: 'Sustituyo cuotas mensuales apiladas por un equivalente autoalojado en hardware tuyo. Presupuestado por proyecto.' },
-          { id: 'arch', name: 'Arquitectura y migración', desc: 'Consolidación de servidores, migración cloud→VPS, hardening, automatización y runbooks. Alcance fijo, precio fijo.' },
         ],
       },
       proof: {
@@ -754,14 +802,14 @@ e7QvYirCPFkg1UYA/1XZmfKawrExb9nuRTYidT+d+VxQejCSz1YoI2IbjegD
         kicker: '§05 — FAQ',
         title: 'Preguntas que hacen los clientes de verdad.',
         items: [
+          { q: '¿Por qué debería confiarte mi infraestructura?', a: 'Sencillo. Entrego primero. Construyo el sistema en mi propio hardware, te lo enseño funcionando, y solo despliego en el tuyo cuando lo apruebas. Pagas dentro de las 48 horas siguientes a la entrega, antes de que te entregue los runbooks y las credenciales de admin. Si no funciona, no debes nada.' },
+          { q: '¿Cómo construyes algo para mi empresa sin acceder a mis sistemas?', a: 'Estudio lo que es públicamente visible — tu dominio, servicios públicos, las herramientas SaaS que usas, tu sector. A partir de ahí construyo una versión endurecida y optimizada de la infraestructura relevante en mi propio VPS. Lo ves funcionando antes de conceder ningún acceso. Si decides seguir, despliego en tu hardware con credenciales que rotas tras el trabajo.' },
           { q: '¿De verdad eres una sola persona? ¿Y si te atropella un autobús?', a: 'Sí, una persona. Por eso cada entrega incluye el código fuente completo, configuración en archivos planos y un runbook con los comandos exactos para restaurar, reiniciar o revertir. Cualquier administrador Linux competente puede tomar el relevo en un día. No dependes de ninguna plataforma propietaria.' },
-          { q: '¿Y si a mi informático no le caigo bien?', a: 'Trabajo con el equipo de IT, no contra él. Todo lo que entrego está documentado en lenguaje claro con el razonamiento detrás de cada decisión. He tenido informáticos leer mis docs de entrega y pedirme volver para el siguiente proyecto.' },
-          { q: '¿Por qué debería confiarte mi red?', a: 'No deberías, hasta tener pruebas. Empieza por la auditoría gratuita de 15 minutos, luego un servicio cerrado en Upwork (25–30 €), y solo comprométete con trabajo mayor cuando me hayas visto entregar. Upwork retiene el pago en escrow; lo liberas tú solo cuando estás satisfecho.' },
+          { q: '¿Y si a mi informático no le caigo bien?', a: 'Trabajo con el equipo de IT, no contra él. Todo lo que entrego está documentado en lenguaje claro con el razonamiento detrás de cada decisión. El doc de entrega está escrito para que un IT interno pueda asumir la propiedad inmediatamente.' },
           { q: '¿Por qué sin suscripciones?', a: 'La mayoría de pymes ya pagan demasiadas cuotas mensuales. Construyo infraestructura que se paga una vez y es tuya. El mantenimiento continuado opcional se presupuesta aparte si lo quieres, pero el proyecto en sí es tuyo para siempre.' },
-          { q: '¿Tocas nuestros datos?', a: 'No. Todo corre en hardware que controlas tú. En la auditoría gratuita trabajo solo con información pública. En proyectos pagados trabajo con credenciales que rotas tras el trabajo, o en un entorno sandbox que tú proveas.' },
           { q: '¿Qué pasa si se rompe tras la entrega?', a: 'Cada entrega incluye un runbook con procedimientos de restauración, reinicio y rollback. El estado es JSON plano en un directorio, así que un VPS nuevo más un restore de tar lo deja todo en pie. El soporte continuado opcional se presupuesta aparte.' },
           { q: '¿Podemos irnos cuando queramos?', a: 'Sí. Nada de lo que construyo te encierra. La configuración está en archivos planos, el código es tuyo, puedes contratar a cualquier otro ingeniero para tomar el relevo.' },
-          { q: '¿Estás dado de alta?', a: 'Trabajo como consultor independiente desde Toledo, España. Los servicios cerrados se facturan y se retienen en escrow vía Upwork. Los compromisos de consultoría mayores por encima del umbral de autónomo se facturan directamente con la documentación fiscal española completa. Los detalles de facturación se confirman durante el alcance del proyecto.' },
+          { q: '¿Estás dado de alta?', a: 'Trabajo como consultor independiente desde Toledo, España. Los compromisos directos se facturan con la documentación fiscal española completa. Los servicios cerrados menores en Upwork se facturan a través de la plataforma con pago en escrow. Los detalles de facturación se confirman durante el alcance del proyecto.' },
         ],
       },
       contact: {
